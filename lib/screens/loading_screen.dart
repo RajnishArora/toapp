@@ -39,8 +39,9 @@ class _LoadingScreenState extends State<LoadingScreen> {
     initOneSignal();
   }
 
-  Future<void> _initAdMob() {
-    return FirebaseAdMob.instance.initialize(appId: AdManager.appId);
+  Future<void> _initAdMob(Map<String, dynamic> option) {
+    String appId = AdManager(optionsGathered: option).getAppId();
+    return FirebaseAdMob.instance.initialize(appId: appId);
   }
 
   Future<void> _deleteCacheDir() async {
@@ -127,7 +128,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
     //initialize admob if required
     if (options['admobOption'] == 'banner') {
-      this._initAdMob();
+      this._initAdMob(options);
     }
 
     Navigator.push(context, MaterialPageRoute(

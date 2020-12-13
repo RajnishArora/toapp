@@ -60,8 +60,10 @@ class _WebViewClassState extends State<WebViewClass> {
     if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
     if (widget.optionsGathered['admobOption'] == 'banner') {
       _bannerAd = BannerAd(
-        adUnitId: AdManager.bannerAdUnitId,
+        //adUnitId: AdManager.bannerAdUnitId,
         //size: AdSize.smartBanner,
+        adUnitId: AdManager(optionsGathered: widget.optionsGathered)
+            .getBannerAdUnitId(),
         size: AdSize.banner,
       );
       _loadBannerAd();
