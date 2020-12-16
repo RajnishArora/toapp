@@ -43,6 +43,8 @@ class _WebViewClassState extends State<WebViewClass> {
 
   final snackBar = SnackBar(content: Text('Snack Bar is lika a toast '));
 
+  var paddingBottom = 70.0;
+
   BannerAd _bannerAd;
   void _loadBannerAd() {
     _bannerAd
@@ -65,6 +67,14 @@ class _WebViewClassState extends State<WebViewClass> {
         adUnitId: AdManager(optionsGathered: widget.optionsGathered)
             .getBannerAdUnitId(),
         size: AdSize.banner,
+        listener: (MobileAdEvent event) {
+          if (event == MobileAdEvent.failedToLoad) {
+            setState(() {
+              paddingBottom = 0.0;
+            });
+          }
+          print("BannerAd event is $event");
+        },
       );
       _loadBannerAd();
     }
@@ -164,6 +174,7 @@ class _WebViewClassState extends State<WebViewClass> {
   @override
   Widget build(BuildContext context) {
     //print(widget.optionsGathered);
+
     String mainUrl = widget.optionsGathered['mainUrl'];
     bool hideAppbar =
         widget.optionsGathered['hideAppbar'] == 'yes' ? true : false;
@@ -323,11 +334,7 @@ class _WebViewClassState extends State<WebViewClass> {
                 //add conditional padding acc to admobOption & admobPosition
                 bottom: (widget.optionsGathered['admobOption'] == 'banner' &&
                         widget.optionsGathered['admobPosition'] == 'bottomads')
-                    ? 70.0
-                    : 0.0,
-                top: (widget.optionsGathered['admobOption'] == 'banner' &&
-                        widget.optionsGathered['admobPosition'] == 'topads')
-                    ? 50.0
+                    ? paddingBottom
                     : 0.0,
               ),
               child: WebView(

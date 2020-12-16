@@ -116,6 +116,4 @@ class _BtnActionState extends State<BtnAction> {
           return Container();
         });
   }
-
-  void takeAction() {}
 }

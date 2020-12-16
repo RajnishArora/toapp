@@ -71,6 +71,7 @@ flutter:
     - assets/images/
     - assets/icon/
     - assets/translations/
+    - android/app/src/main/res/drawable/
 
   fonts:
     - family: ProductSans

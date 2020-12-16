@@ -123,21 +123,21 @@ class _WtaDrawerState extends State<WtaDrawer> {
   String getItemUrl(String str, String toAdd) {
     // add facebook id or whatapp id later;
     String selectedUrl = "";
-    if (toAdd == "%") {
+    if (toAdd == "!") {
       toAdd = "";
     }
     switch (str) {
       case 'Facebook':
-        selectedUrl = "fb://" + toAdd;
+        selectedUrl = "fb://arorarajnish" + toAdd;
         break;
       case 'Whatsapp':
-        selectedUrl = "whatsapp://" + toAdd;
+        selectedUrl = "whatsapp://send?phone=" + toAdd;
         break;
       case 'Instagram':
-        selectedUrl = "instagram://" + toAdd;
+        selectedUrl = "https://instagram.com/" + toAdd;
         break;
       case 'Youtube':
-        selectedUrl = "youtube://" + toAdd;
+        selectedUrl = "https://youtube.com/" + toAdd;
         break;
       case 'SMS':
         selectedUrl = "sms://" + toAdd;
@@ -157,7 +157,10 @@ class _WtaDrawerState extends State<WtaDrawer> {
     socialListIcon.clear();
     socialListUrl.clear();
     int len = 0;
-    nameList = widget.optionsGathered['socialMenu'].split(',');
+    if (widget.optionsGathered['socialMenu'] != null) {
+      nameList = widget.optionsGathered['socialMenu'].split(',');
+    }
+
     len = nameList.length;
     int i = 0;
     while (i < len) {
@@ -300,7 +303,10 @@ class _WtaDrawerState extends State<WtaDrawer> {
                     child: (itemCount > 0)
                         ? ListView.builder(
                             shrinkWrap: true,
-                            //padding: const EdgeInsets.all(8),
+                            physics: ClampingScrollPhysics(),
+                            padding: const EdgeInsets.only(
+                              top: 0.0,
+                            ),
                             itemCount: itemCount,
                             itemBuilder: (BuildContext context, k) {
                               //print(k);
@@ -319,8 +325,8 @@ class _WtaDrawerState extends State<WtaDrawer> {
                                           );
                                         }
                                         return Container(
-                                          width: 50.0,
-                                          height: 50.0,
+                                          width: 40.0,
+                                          height: 40.0,
                                           //child: Text('Oh!'),
                                         );
                                       });
@@ -339,7 +345,11 @@ class _WtaDrawerState extends State<WtaDrawer> {
                                   ),
                                 ),
                                 onTap: () async {
-                                  CircularProgressIndicator();
+                                  print("ABOUT TO LAUNCH");
+                                  CircularProgressIndicator(
+                                    backgroundColor: Colors.red,
+                                  );
+                                  print("LAUNCHED");
                                   if (lMenuItemNames[k] == 'Home') {
                                     await controller.data.loadUrl(
                                         widget.optionsGathered['mainUrl']);
@@ -393,6 +403,10 @@ class _WtaDrawerState extends State<WtaDrawer> {
                   Container(
                       child: ListView.builder(
                     shrinkWrap: true,
+                    padding: const EdgeInsets.only(
+                      top: 0.0,
+                    ),
+                    physics: ClampingScrollPhysics(),
                     itemCount: socialItemCount,
                     itemBuilder: (BuildContext context, index) {
                       return ListTile(
@@ -407,13 +421,19 @@ class _WtaDrawerState extends State<WtaDrawer> {
                           ),
                         ),
                         onTap: () async {
-                          CircularProgressIndicator();
+                          print("ABOUT TO LAUNCH");
+                          CircularProgressIndicator(
+                            backgroundColor: Colors.red,
+                            value: 8.0,
+                          );
+                          print("LAUNCHED");
+                          await launch(socialListUrl[index]);
                           // using url_launcher
-                          if (await canLaunch(socialListUrl[index])) {
-                            await launch(socialListUrl[index]);
-                          } else {
-                            throw 'Could not launch socialListUrl[index]';
-                          }
+                          // if (await canLaunch(socialListUrl[index])) {
+                          //   await launch(socialListUrl[index]);
+                          // } else {
+                          //   throw 'Could not launch socialListUrl[index]';
+                          // }
                           //await controller.data.loadUrl(socialListUrl[index]);
                           Navigator.pop(context);
                         },

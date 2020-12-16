@@ -126,6 +126,9 @@ class _LoadingScreenState extends State<LoadingScreen> {
     //saveImage(prefs.getString('imageLocation'));
     //prefs.clear();
 
+    print("SOCIAL MENU IN WTADRAWER");
+    print(options['socialMenu']);
+
     //initialize admob if required
     if (options['admobOption'] == 'banner') {
       this._initAdMob(options);
@@ -152,12 +155,25 @@ class _LoadingScreenState extends State<LoadingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.indigo,
-      body: Container(
-        color: Colors.black,
-        child: Center(
-          child: CircularProgressIndicator(),
-        ),
+      body: Stack(
+        children: [
+          Image(
+            image: AssetImage('assets/images/logo.jpg'),
+            fit: BoxFit.cover,
+            height: double.infinity,
+            width: double.infinity,
+            alignment: Alignment.center,
+          ),
+        ],
       ),
     );
   }
 }
+
+//
+// Container(
+// color: Colors.black,
+// child: Center(
+// child: CircularProgressIndicator(),
+// ),
+// )
