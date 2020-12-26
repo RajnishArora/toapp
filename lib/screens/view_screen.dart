@@ -18,6 +18,8 @@ import 'dart:io' show Platform;
 import 'package:path/path.dart' as path;
 //import 'package:share/share.dart';
 //import 'package:minimize_app/minimize_app.dart';
+import 'package:move_to_background/move_to_background.dart';
+
 import 'package:webtoapp/Components/wtaDrawer.dart';
 import 'package:webtoapp/Components/wtaCustomPopupMenu.dart';
 import 'package:webtoapp/Components/wtaBtnAction.dart';
@@ -203,7 +205,10 @@ class _WebViewClassState extends State<WebViewClass> {
 
           //retVal = true;
         } else {
-          //  MinimizeApp.minimizeApp();
+          if (Platform.isAndroid) {
+            //  MinimizeApp.minimizeApp();
+            MoveToBackground.moveTaskToBack();
+          }
         }
         return false;
       },

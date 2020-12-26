@@ -1,5 +1,7 @@
 import 'dart:async';
-
+import 'dart:io';
+//import 'package:move_to_background/move_to_background.dart';
+import 'package:move_to_background/move_to_background.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webtoapp/Helpers/GetHeaderIcons.dart';
@@ -37,7 +39,10 @@ class _BtnActionState extends State<BtnAction> {
     if (await webController.canGoBack()) {
       await webController.goBack();
     } else {
-      //MinimizeApp.minimizeApp();
+      if (Platform.isAndroid) {
+        MoveToBackground.moveTaskToBack();
+        //MinimizeApp.minimizeApp();
+      }
     }
   }
 
