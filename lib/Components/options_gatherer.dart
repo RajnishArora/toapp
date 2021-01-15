@@ -11,11 +11,14 @@ class OptionsGatherer {
 //    this is useful when u want to go inside the url data
     http.Response response = await http.get(url).timeout(
         Duration(
-          seconds: 2,
+          seconds: 5,
         ), onTimeout: () {
       print('FAILED BY TIMEOUT');
       return null;
     });
+    print("RESPONSE");
+    print(response);
+    print(response.statusCode);
     if (response.statusCode == 200) {
       return response.body;
       //return jsonDecode(response.body);

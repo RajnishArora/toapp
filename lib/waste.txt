@@ -1,0 +1,713 @@
+//return new Io.File('$path/${DateTime.now().toUtc().toIso8601String()}.png')..writeAsBytesSync(encodePng(thumbnail));
+
+
+
+                  // navigationDelegate: (NavigationRequest request) {
+                  //   if (request.url.startsWith('https://www.youtube.com/')) {
+                  //     print('blocking navigation to $request}');
+                  //     return NavigationDecision.prevent;
+                  //   }
+                  //   print("REQUEST.URL");
+                  //
+                  //   return NavigationDecision.navigate;
+                  // },
+
+
+                  // for css inject
+                  //   webView.evaluateJavascript("javascript:(function() {" +
+                  //       "var parent = document.getElementsByTagName('head').item(0);" +
+                  //       "var style = document.createElement('style');" +
+                  //       "style.type = 'text/css';" +
+                  //       // Tell the browser to BASE64-decode the string into your script !!!
+                  //       "style.innerHTML = window.atob('" + base64Str + "');" +
+                  //       "parent.appendChild(style)" +
+                  //       "})()");
+                  //css inject ends
+
+
+  //
+  // Future<File> getImageFile(String imgUrl) async {
+  //   try {
+  //     return await SaveFile().saveImage(imgUrl);
+  //   } on Error catch (e) {
+  //     throw 'Error has occured while saving';
+  //   }
+  //   return null;
+  // }
+  //
+  // final Directory _appDocDir = await getApplicationDocumentsDirectory();
+  // //App Document Directory + folder name
+  // final Directory _appDocDirFolder =  Directory('${_appDocDir.path}/$folderName/');
+  //
+  // if(await _appDocDirFolder.exists()){ //if folder already exists return path
+  // return _appDocDirFolder.path;
+  // }else{//if folder not exists create folder and then return its path
+  // final Directory _appDocDirNewFolder=await _appDocDirFolder.create(recursive: true);
+  // return _appDocDirNewFolder.path;
+  // }
+
+  Future<File> getImageFile(String imgUrl) async {
+    if (imgUrl != "" && imgUrl != null) {
+      imgUrl = imgUrl.trim();
+      imgUrl = imgUrl.replaceAll('localhost', baseIp);
+      //  print("IMGURL");
+      //  print(imgUrl);
+      String folderName = 'images';
+      String requiredPath;
+      final Directory documentDirectory =
+          await getApplicationDocumentsDirectory();
+
+      final Directory applicationDirectory =
+          Directory('${documentDirectory.path}/$folderName/');
+
+      if (await applicationDirectory.exists()) {
+        print("VIEW_SCREEN DIR ALREADY EXISTS");
+        requiredPath = applicationDirectory.path;
+      } else {
+        //if folder not exists create folder and then return its path
+        //if folder not exists create folder and then return its path
+        print("VIEW_SCREEN  CREATING DIR");
+        final Directory applicationDirectoryNew =
+            await applicationDirectory.create(recursive: true);
+        requiredPath = applicationDirectoryNew.path;
+      }
+
+      String filename = requiredPath + path.basename(imgUrl);
+      // extract file name from url by finding /.last
+      File file = File(filename);
+      if (await file.exists()) {
+        print("FILE ALREADY EXISTS SO NO SAVING");
+        return file;
+      }
+      str = filename;
+      //File fileNew = File(path.join(requiredPath, filename));
+      print("FILE PATH");
+      print(filename);
+      //File doesn't exist beforehand so fetch
+      try {
+        var response = await http.get(imgUrl);
+
+        print("FILE COPIED");
+        return new File(filename)..writeAsBytesSync(response.bodyBytes);
+        //fileNew.writeAsBytesSync(response.bodyBytes);
+
+      } catch (e) {
+        print("Could not copy file");
+        print(e);
+      }
+      //print("returning original method");
+      //return File(str);
+      return null;
+    }
+    return null;
+  }
+
+
+
+// AppBar(
+        //         title: Row(
+        //           mainAxisAlignment: MainAxisAlignment.start,
+        //           crossAxisAlignment: CrossAxisAlignment.center,
+        //           children: [
+        //             (() {
+        //               if (widget.optionsGathered['leftIcon'] != 'lback' &&
+        //                   Platform.isIOS) {
+        //                 return IconButton(
+        //                   icon: Icon(
+        //                     FontAwesomeIcons.arrowLeft,
+        //                     color: Colors.white,
+        //                   ),
+        //                   onPressed: () {
+        //                     controller.goBack();
+        //                   },
+        //                 );
+        //               } else {
+        //                 return Container();
+        //               }
+        //             }()),
+        //             Expanded(
+        //               child: (() {
+        //                 if (headerOption == 'only-text') {
+        //                   return Text(widget.optionsGathered['appTitle']);
+        //                 } else if (headerOption == 'only-image') {
+        //                   return FutureBuilder(
+        //                       future: titleImage,
+        //                       builder: (BuildContext context,
+        //                           AsyncSnapshot<File> snapshot) {
+        //                         if (snapshot.hasData) {
+        //                           return Image.file(snapshot.data);
+        //                         } else {
+        //                           return Container();
+        //                         }
+        //                       });
+        //                 } else {
+        //                   // headerOption == "nothing so do nothing
+        //                 }
+        //               }()),
+        //             ),
+        //           ],
+        //         ),
+        //         flexibleSpace: Container(
+        //           decoration: BoxDecoration(
+        //             gradient: LinearGradient(
+        //               colors: [
+        //                 _colorFromHex(widget.optionsGathered['colSelFirst']),
+        //                 widget.optionsGathered['gradientOptionSelected'] == 'no'
+        //                     ? _colorFromHex(
+        //                         widget.optionsGathered['colSelFirst'])
+        //                     : _colorFromHex(
+        //                         widget.optionsGathered['colSelSecond'])
+        //               ],
+        //               begin: Alignment.topLeft,
+        //               end: Alignment.bottomRight,
+        //             ),
+        //           ),
+        //         ),
+        //         centerTitle:
+        //             widget.optionsGathered['titleAlign'] == 'center-align'
+        //                 ? true
+        //                 : false,
+        //         //backgroundColor: _colorFromHex(widget.optionsGathered['colSelFirst']),
+        //         leading: Builder(
+        //           //using builder so that we can get context
+        //           builder: (context) => BtnAction(
+        //               completer: _controller,
+        //               optionsGathered: widget.optionsGathered,
+        //               str: 'left'),
+        //         ),
+        //         actions: [
+        //           //switch not working
+        //           widget.optionsGathered['rightFirstIcon'] == 'rmenu'
+        //               ? (CustomPopupMenu(
+        //                   optionsGathered: widget.optionsGathered,
+        //                   completer: _controller))
+        //               : (widget.optionsGathered['rightFirstIcon'] == ""
+        //                   ? SizedBox.shrink()
+        //                   : BtnAction(
+        //                       completer: _controller,
+        //                       str: 'rightFirst',
+        //                       optionsGathered: widget.optionsGathered,
+        //                     )),
+        //           widget.optionsGathered['rightSecondIcon'] == 'rmenu'
+        //               ? CustomPopupMenu(
+        //                   optionsGathered: widget.optionsGathered,
+        //                   completer: _controller,
+        //                 )
+        //               : widget.optionsGathered['rightSecondIcon'] == ""
+        //                   ? SizedBox.shrink()
+        //                   : BtnAction(
+        //                       completer: _controller,
+        //                       str: 'rightSecond',
+        //                       optionsGathered: widget.optionsGathered,
+        //                     ),
+        //         ],
+        //       ),
+
+
+
+    //Widget _defaultHome = WebViewClass(optionsGathered: widget.options);
+
+    // Future<Widget> getHome() async {
+    //   var _defaultHome;
+    //   if (await isInternet()) {
+    //     _defaultHome = WebViewClass(optionsGathered: widget.options);
+    //   } else {
+    //     _defaultHome = InternetError();
+    //   }
+    //   return _defaultHome;
+    // }
+
+    //     Future<Widget> dHome = getHome();
+
+
+  // Future<bool> isInternet() async {
+  //   var connectivityResult = await (Connectivity().checkConnectivity());
+  //   if (connectivityResult == ConnectivityResult.mobile) {
+  //     // I am connected to a mobile network, make sure there is actually a net connection.
+  //     if (await DataConnectionChecker().hasConnection) {
+  //       // Mobile data detected & internet connection confirmed.
+  //       return true;
+  //     } else {
+  //       // Mobile data detected but no internet connection found.
+  //       return false;
+  //     }
+  //   } else if (connectivityResult == ConnectivityResult.wifi) {
+  //     // I am connected to a WIFI network, make sure there is actually a net connection.
+  //     if (await DataConnectionChecker().hasConnection) {
+  //       // Wifi detected & internet connection confirmed.
+  //       return true;
+  //     } else {
+  //       // Wifi detected but no internet connection found.
+  //       return false;
+  //     }
+  //   } else {
+  //     // Neither mobile data or WIFI detected, not internet connection found.
+  //     return false;
+  //   }
+  // }
+
+
+Appbar
+ // title: (() {
+                //   if (headerOption == 'only-text') {
+                //     return Text(widget.optionsGathered['appTitle']);
+                //   } else if (headerOption == 'only-image') {
+                //     return FutureBuilder(
+                //         future: titleImage,
+                //         builder: (BuildContext context,
+                //             AsyncSnapshot<File> snapshot) {
+                //           return snapshot.data != null
+                //               ? Image.file(snapshot.data)
+                //               : Text(widget.optionsGathered['appTitle']);
+                //         });
+                //   } else {
+                //     // headerOption == "nothing so do nothing
+                //   }
+                // }()),
+
+
+onTap: () async {
+                                  print("ABOUT TO LAUNCH");
+                                  Navigator.pop(context);
+                                  FocusScope.of(context)
+                                      .unfocus(); //minimize keyboard
+                                  CircularProgressIndicator(
+
+                                  );
+                                  print("LAUNCHED");
+                                  if (lMenuItemNames[k] == 'Home') {
+                                    await controller.data.loadUrl(
+                                        widget.optionsGathered['mainUrl']);
+                                  } else {
+                                    await controller.data
+                                        .loadUrl(lMenuItemUrls[k]);
+                                  }
+                                },
+
+
+
+String title,url;
+bool isLoading=true;
+final _key = UniqueKey();
+
+WebViewState(String title,String url){
+  this.title=title;
+  this.url=url;
+}
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: new AppBar(
+        title: Text(this.title,style: TextStyle(fontWeight: FontWeight.w700)),centerTitle: true
+    ),
+    body: Stack(
+      children: <Widget>[
+        WebView(
+          key: _key,
+          initialUrl: this.url,
+          javascriptMode: JavascriptMode.unrestricted,
+          onPageFinished: (finish) {
+            setState(() {
+              isLoading = false;
+            });
+          },
+        ),
+        isLoading ? Center( child: CircularProgressIndicator(),)
+            : Stack(),
+      ],
+    ),
+  );
+}
+
+}
+
+
+
+//
+// import 'dart:io';
+//
+// class AdManager {
+//   static String get appId {
+//     if (Platform.isAndroid) {
+//       return "ca-app-pub-3634343166278168~4965266544";
+//     } else if (Platform.isIOS) {
+//       return "ca-app-pub-3940256099942544~2594085930";
+//     } else {
+//       throw new UnsupportedError("Unsupported platform");
+//     }
+//   }
+//
+//   static String get bannerAdUnitId {
+//     if (Platform.isAndroid) {
+//       return "ca-app-pub-3634343166278168/2610565941";
+//     } else if (Platform.isIOS) {
+//       return "ca-app-pub-3940256099942544/4339318960";
+//     } else {
+//       throw new UnsupportedError("Unsupported platform");
+//     }
+//   }
+//
+//   static String get interstitialAdUnitId {
+//     if (Platform.isAndroid) {
+//       return "ca-app-pub-3940256099942544/7049598008";
+//     } else if (Platform.isIOS) {
+//       return "ca-app-pub-3940256099942544/3964253750";
+//     } else {
+//       throw new UnsupportedError("Unsupported platform");
+//     }
+//   }
+// }
+
+// Image.asset(
+// 'assets/images/logo.jpg',
+// width: 200.0,
+// height: 200.0,
+// )
+
+// from android Manifest
+// <!-- Specifies an Android theme to apply to this Activity as soon as
+// the Android process has started. This theme is visible to the user
+// while the Flutter UI initializes. After that, this theme continues
+// to determine the Window background behind the Flutter UI. -->
+// <meta-data
+// android:name="io.flutter.embedding.android.NormalTheme"
+// android:resource="@style/NormalTheme"
+// />
+// <!-- Displays an Android View that continues showing the launch screen
+// Drawable until Flutter paints its first frame, then this splash
+// screen fades out. A splash screen is useful to avoid any visual
+// gap between the end of Android's launch screen and the painting of
+// Flutter's first frame. -->
+// <meta-data
+// android:name="io.flutter.embedding.android.SplashScreenDrawable"
+// android:resource="@drawable/launch_background"
+// />
+
+// void evalJS() async {
+//   // for css encode
+//
+//   print("In EVAL JS");
+//   String css = await rootBundle.loadString('assets/styles.css');
+//   print(css);
+//   var bytes = utf8.encode(css);
+//   var base64Str = base64.encode(bytes);
+//   controller.evaluateJavascript("javascript:(function() {" +
+//       // "document.getElementById('body').style.color = 'red';" +
+//       "var parent = document.getElementsByTagName('head').item(0);" +
+//       "var style = document.createElement('style');" +
+//       "style.type = 'text/css';" +
+//       // Tell the browser to BASE64-decode the string into your script !!!
+//       "style.innerHTML = window.atob('" +
+//       base64Str +
+//       "');" +
+//       "parent.appendChild(style)" +
+//       "})()");
+// //
+// }
+
+//Text(
+//widget.optionsGathered['appTitle'],
+//),
+//title: Text('placeholder'),//Image(image: FileImage(file)),
+/*
+new FutureBuilder(
+future: getImageFile(widget.optionsGathered['imageLocation']),
+builder:
+(BuildContext context, AsyncSnapshot<File> snapshot) {
+return snapshot.data != null
+? Image.file(snapshot.data)
+    : Text(widget.optionsGathered['appTitle']);
+}),
+*/
+/* use this for conditional statement in widget
+(() {
+// your code here
+}())
+*/
+
+/*
+for right icons in appbar
+              actions: [
+                IconButton(
+                  icon: Icon(Icons.add_alert),
+                  tooltip: 'Show SnackBar',
+                  onPressed: () {
+                    scaffoldKey.currentState.showSnackBar(snackBar);
+                  },
+                ),
+                //IconButton(),
+              ],
+ */
+/*
+              actions: [
+                widget.optionsGathered['rightFirstIcon'] == ""
+                    ? ""
+                    : IconButton(
+                        // Use the FaIcon Widget + FontAwesomeIcons class for the IconData
+                        icon: getHeaderIcon(
+                            widget.optionsGathered['rightFirstIcon']),
+                        //icon: FaIcon(FontAwesomeIcons.search),
+                        onPressed: () {
+                          print("Pressed");
+                        }),
+                getHeaderIcon(widget.optionsGathered['rightSecondIcon']) == null
+                    ? ""
+                    : IconButton(
+                        // Use the FaIcon Widget + FontAwesomeIcons class for the IconData
+                        icon: getHeaderIcon(
+                            widget.optionsGathered['rightSecondIcon']),
+                        //icon: FaIcon(FontAwesomeIcons.search),
+                        onPressed: () {
+                          print("Pressed");
+                        }),
+              ],
+ */
+/*
+WebView(
+        initialUrl: url,
+        javascriptMode: JavascriptMode.unrestricted,
+        onWebViewCreated: (WebViewController webViewController) {
+          _controller.complete(webViewController);
+          //_loadHtmlFromNetworking();
+        },
+      ),
+ */
+
+/*
+WebView(
+            initialUrl: url,
+            javascriptMode: JavascriptMode.unrestricted,
+            onWebViewCreated: (WebViewController webViewController) {
+              _controller.complete(webViewController);
+            },
+            javascriptChannels: <JavascriptChannel>[
+              _toasterJavascriptChannel(context),
+            ].toSet(),
+            navigationDelegate: (NavigationRequest request) {
+              if (request.url.startsWith('https://www.youtube.com/')) {
+                print('blocking navigation to $request}');
+                return NavigationDecision.prevent;
+              }
+              print("REQUEST.URL");
+              print(request.url);
+              return NavigationDecision.navigate;
+            },
+            onPageStarted: (String url) {
+              print('PAGE START LOADING : $url');
+            },
+            onPageFinished: (String url) {
+              print('PAGE FINISHED LOADING : $url');
+            },
+            gestureNavigationEnabled: true,
+          );
+ */
+// print(widget.optionsGathered['rightFirstIcon']);
+// print(widget.optionsGathered['rightSecondIcon']);
+//var networkHelper = NetworkHelper(url);
+//Future test = networkHelper.getData();
+//the test var has all the website body this could be useful if u want to
+// alter any html but going to different pages needs to be checked
+/*
+ListView(
+        children: [
+          DrawerHeader(
+            child: Text('Drawer Header'),
+            decoration: BoxDecoration(
+              color: _colorFromHex(optionsGathered['colSelFirst']),
+              border: Border.all(
+                width: 1.0,
+              ),
+            ),
+          ),
+          ListTile(
+            title: Text('Tile 1'),
+            onTap: () {
+              // do something
+              //....
+              //pop out of drawer
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            title: Text('Tile 2'),
+            onTap: () {
+              // do something
+              //....
+              //pop out of drawer
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      ),
+
+ */
+/*
+Map<String, dynamic> createBarArray() {
+    Map<String, dynamic> barMenuItems = Map<String, dynamic>();
+    for (var k in optionsGathered.keys) {
+      if (k.startsWith('lmenuitemname')) {
+        String str = k.substring(13);
+        barMenuItems[optionsGathered[k]] =
+            optionsGathered['lmenuitemurl' + str];
+        //print(optionsGathered[k]);
+      }
+    }
+    //print(barMenuItems.length);
+    return barMenuItems;
+  }
+
+ */
+//                      ? PopupMenuButton<String>(
+//                          onSelected: handleEvent,
+//                          itemBuilder: (BuildContext context) {
+//                            return {'Logout', 'Settings'}.map((String choice) {
+//                              return PopupMenuItem<String>(
+//                                value: choice,
+//                                child: Text(choice),
+//                              );
+//                            }).toList();
+//                          },
+//                        )
+//wtaDrawer before starting panga of future builder
+
+/* Before Future builder panga with popupmenu
+
+  @override
+  Widget build(BuildContext context) {
+    print("CREATE ELLIPSIS ARRAY");
+    createEllipsisArray();
+    print(rMenuItemNames);
+    return PopupMenuButton<String>(
+      onSelected: handleEvent,
+      itemBuilder: (BuildContext context) {
+        return rMenuItemNames.map((choice) {
+          return PopupMenuItem<String>(
+            value: choice,
+            child: Text(choice),
+          );
+        }).toList();
+      },
+    );
+  }
+
+  void handleEvent(String value) {
+    int index = getIndex(value, rMenuItemNames);
+    if (rMenuItemUrls[index] != "") {
+      widget.controller.loadUrl(rMenuItemUrls[index]);
+    }
+  }
+
+  int getIndex(String choice, List strList) {
+    return strList.indexOf(choice);
+  }
+}
+
+*/
+//
+//  void share(String passedText) {
+//    print("IN SHARE $passedText");
+//    Share.share(passedText);
+//  }
+
+//  loadCurrentUrl() async {
+//    var currentUrl = await controller.currentUrl();
+//    await controller.loadUrl(currentUrl);
+//  }
+//
+///    FutureBuilder<WebViewController>(
+//      future: _controller.future,
+//      builder:
+//          (BuildContext context, AsyncSnapshot<WebViewController> snapshot) {
+//        if (snapshot.hasData) {
+//          print("HAS DATA");
+//          snapshot.data.loadUrl(url);
+//        } else {
+//          print("NO DATA");
+//        }
+//        return Container();
+//      },
+//    );
+//
+//    if (await canLaunch(url)) {
+//      await launch(
+//        url,
+//        forceSafariVC: true,
+//        forceWebView: true,
+//        enableJavaScript: true,
+//      );
+//    } else {
+//      throw 'Could not launch $url';
+//    }
+//}
+
+//  goBack([BuildContext context]) async {
+//    bool canGoBack = await controller.canGoBack();
+//    if (canGoBack == true) {
+//      controller.goBack();
+//    } else {
+//      MinimizeApp.minimizeApp();
+//    }
+//  }
+//
+//  goForward() async {
+//    bool canGoForward = await controller.canGoForward();
+//    if (canGoForward) {
+//      controller.goForward();
+//    } else {
+//      //TODO msg cant go forard
+//    }
+//  }
+//
+//  reload() async {
+//    await controller.reload();
+//  }
+//
+//  btnAction(String str, String strUrl) {
+//    print("IN BTN ACTION");
+//    print(str);
+//    print(strUrl);
+//    switch (str) {
+//      case 'lhome':
+//      case 'rhome':
+//        try {
+//          loadUrl(widget.optionsGathered['mainUrl']);
+//          //loadCurrentUrl(_controller.future, widget.optionsGathered['mainUrl']);
+//          //LoadCurrentUrl(_controller, widget.optionsGathered['mainUrl']);
+//        } catch (e) {
+//          print(e);
+//        }
+//        break;
+//
+//      case 'rback':
+//      case 'lback':
+//        goBack();
+//        break;
+//      case 'rreload':
+//        reload();
+//        break;
+//      case 'lforward':
+//      case 'rforward':
+//        goForward();
+//        break;
+//      case 'rcart':
+//      case 'lcart':
+//      case 'lsearch':
+//      case 'rsearch':
+//        if (strUrl != "") {
+//          try {
+//            loadUrl(strUrl);
+//          } catch (e) {
+//            print(e);
+//          }
+//        } else {
+//          //msg option not set
+//        }
+//
+//        break;
+//      case 'rshare':
+//        share(strUrl);
+//        break;
+//      default:
+//        break;
+//    }
+//  }

@@ -25,21 +25,21 @@ class _CustomPopupMenuState extends State<CustomPopupMenu> {
     if (rMenuItemUrls.isNotEmpty) {
       rMenuItemUrls.clear();
     }
-    int index = 0;
-    for (var k in widget.optionsGathered.keys) {
-      if (k.startsWith('rmenuitemname')) {
-        index++;
-        //find the no of rmenuItems
-      }
-    }
+    int index = int.parse(widget.optionsGathered['rmenuitemnumber']);
+    // for (var k in widget.optionsGathered.keys) {
+    //   if (k.startsWith('rmenuitemname')) {
+    //     index++;
+    //     //find the no of rmenuItems
+    //   }
+    // }
     //this is done so the final array is in ascending order
     for (int i = 0; i < index; i++) {
       rMenuItemNames
           .add(widget.optionsGathered['rmenuitemname' + i.toString()]);
       rMenuItemUrls.add(widget.optionsGathered['rmenuitemurl' + i.toString()]);
     }
-    print(rMenuItemNames);
-    print(rMenuItemUrls);
+    //print(rMenuItemNames);
+    //print(rMenuItemUrls);
   }
 
 /*

@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 //import 'package:image/image.dart';
 import 'package:path_provider/path_provider.dart';
+//import 'package:webtoapp/Components/wtaAppbar.dart';
 import 'package:webtoapp/screens/language_screen.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -220,6 +222,23 @@ class _WtaDrawerState extends State<WtaDrawer> {
   Future<File> createFileItem(int i) async {
     return await getImageFile(lMenuItemIcons[i]);
   }
+  //
+  // Future<String> _urlLoaded(int k, WebViewController controller) async {
+  //   await Future.delayed(Duration(seconds: 1));
+  //
+  //   if (lMenuItemNames[k] == 'Home') {
+  //     return (widget.optionsGathered['mainUrl']);
+  //   } else {
+  //     return (lMenuItemUrls[k]);
+  //   }
+  // }
+  //
+  // Future buildText() {
+  //   return new Future.delayed(
+  //       const Duration(seconds: 5), () => print('waiting'));
+  // }
+
+  Future str;
 
   @override
   Widget build(BuildContext context) {
@@ -233,6 +252,23 @@ class _WtaDrawerState extends State<WtaDrawer> {
 
     final Future<File> drawerHeaderImage =
         getImageFile(widget.optionsGathered['drawerImageLocation']);
+
+    // Widget _buildWaitingScreen(option, completer) {
+    //   print("uuuuu");
+    //   return Scaffold(
+    //     appBar: WtaAppbar(
+    //       optionsGathered: option,
+    //       completer: completer,
+    //     ),
+    //     body: Container(
+    //       alignment: Alignment.center,
+    //       color: Colors.indigo,
+    //       width: 100.0,
+    //       height: 300.0,
+    //       child: CircularProgressIndicator(),
+    //     ),
+    //   );
+    // }
 
     return FutureBuilder<WebViewController>(
         future: widget.completer.future,
@@ -344,11 +380,34 @@ class _WtaDrawerState extends State<WtaDrawer> {
                                     ),
                                   ),
                                 ),
+                                //onTap: () {
+                                // print("TTTTT");
+                                // Navigator.pop(context);
+                                // FocusScope.of(context)
+                                //     .unfocus(); //minimize keyboard
+                                // _buildWaitingScreen(
+                                //     widget.optionsGathered, widget.completer);
+                                //controller.inState(ConnectionState.waiting);
+                                // return FutureBuilder(
+                                //     future: controller.data
+                                //         .loadUrl(lMenuItemUrls[k]),
+                                //     builder: (BuildContext context,
+                                //         AsyncSnapshot snapshot) {
+                                //       if (snapshot.connectionState ==
+                                //           ConnectionState.done) {
+                                //         print("HHHHHH");
+                                //       } else {
+                                //         return CircularProgressIndicator();
+                                //       }
+                                //       return CircularProgressIndicator();
+                                //     });
+                                //},
                                 onTap: () async {
                                   print("ABOUT TO LAUNCH");
-                                  CircularProgressIndicator(
-                                    backgroundColor: Colors.red,
-                                  );
+                                  Navigator.pop(context);
+                                  FocusScope.of(context)
+                                      .unfocus(); //minimize keyboard
+
                                   print("LAUNCHED");
                                   if (lMenuItemNames[k] == 'Home') {
                                     await controller.data.loadUrl(
@@ -357,10 +416,6 @@ class _WtaDrawerState extends State<WtaDrawer> {
                                     await controller.data
                                         .loadUrl(lMenuItemUrls[k]);
                                   }
-
-                                  Navigator.pop(context);
-                                  FocusScope.of(context)
-                                      .unfocus(); //minimize keyboard
                                 },
                                 // trailing: IconButton(
                                 //   icon: FaIcon(FontAwesomeIcons.angleRight),

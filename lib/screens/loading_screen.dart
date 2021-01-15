@@ -1,3 +1,4 @@
+// USING LOADING CLASS INSTEAD OF THIS < NEED TO CHECK MESSAGING
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
