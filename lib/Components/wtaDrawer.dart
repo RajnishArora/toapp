@@ -7,6 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 //import 'package:webtoapp/Components/wtaAppbar.dart';
 import 'package:webtoapp/screens/language_screen.dart';
+import 'package:webtoapp/screens/privacy_policy.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:path/path.dart' as path;
@@ -26,16 +27,16 @@ class WtaDrawer extends StatefulWidget {
 }
 
 class _WtaDrawerState extends State<WtaDrawer> {
-  var lMenuItemNames = List();
-  var lMenuItemUrls = List();
-  var lMenuItemIcons = List();
+  var lMenuItemNames = [];
+  var lMenuItemUrls = [];
+  var lMenuItemIcons = [];
 
-  var socialListIcon = List();
-  var socialListName = List();
-  var socialListUrl = List();
+  var socialListIcon = [];
+  var socialListName = [];
+  var socialListUrl = [];
 
-  var fileList = List();
-  List<File> fileListArray = List();
+  var fileList = [];
+  List<File> fileListArray = [];
   //GetHeaderIcon _getHeaderIcon = GetHeaderIcon();
 
   Color _colorFromHex(String hexColor) {
@@ -154,7 +155,7 @@ class _WtaDrawerState extends State<WtaDrawer> {
 
   void createSocialArray() {
     // Covert into 1 2-D array Later
-    var nameList = new List();
+    var nameList = [];
     socialListName.clear();
     socialListIcon.clear();
     socialListUrl.clear();
@@ -222,21 +223,6 @@ class _WtaDrawerState extends State<WtaDrawer> {
   Future<File> createFileItem(int i) async {
     return await getImageFile(lMenuItemIcons[i]);
   }
-  //
-  // Future<String> _urlLoaded(int k, WebViewController controller) async {
-  //   await Future.delayed(Duration(seconds: 1));
-  //
-  //   if (lMenuItemNames[k] == 'Home') {
-  //     return (widget.optionsGathered['mainUrl']);
-  //   } else {
-  //     return (lMenuItemUrls[k]);
-  //   }
-  // }
-  //
-  // Future buildText() {
-  //   return new Future.delayed(
-  //       const Duration(seconds: 5), () => print('waiting'));
-  // }
 
   Future str;
 
@@ -252,23 +238,6 @@ class _WtaDrawerState extends State<WtaDrawer> {
 
     final Future<File> drawerHeaderImage =
         getImageFile(widget.optionsGathered['drawerImageLocation']);
-
-    // Widget _buildWaitingScreen(option, completer) {
-    //   print("uuuuu");
-    //   return Scaffold(
-    //     appBar: WtaAppbar(
-    //       optionsGathered: option,
-    //       completer: completer,
-    //     ),
-    //     body: Container(
-    //       alignment: Alignment.center,
-    //       color: Colors.indigo,
-    //       width: 100.0,
-    //       height: 300.0,
-    //       child: CircularProgressIndicator(),
-    //     ),
-    //   );
-    // }
 
     return FutureBuilder<WebViewController>(
         future: widget.completer.future,
@@ -380,28 +349,7 @@ class _WtaDrawerState extends State<WtaDrawer> {
                                     ),
                                   ),
                                 ),
-                                //onTap: () {
-                                // print("TTTTT");
-                                // Navigator.pop(context);
-                                // FocusScope.of(context)
-                                //     .unfocus(); //minimize keyboard
-                                // _buildWaitingScreen(
-                                //     widget.optionsGathered, widget.completer);
-                                //controller.inState(ConnectionState.waiting);
-                                // return FutureBuilder(
-                                //     future: controller.data
-                                //         .loadUrl(lMenuItemUrls[k]),
-                                //     builder: (BuildContext context,
-                                //         AsyncSnapshot snapshot) {
-                                //       if (snapshot.connectionState ==
-                                //           ConnectionState.done) {
-                                //         print("HHHHHH");
-                                //       } else {
-                                //         return CircularProgressIndicator();
-                                //       }
-                                //       return CircularProgressIndicator();
-                                //     });
-                                //},
+
                                 onTap: () async {
                                   print("ABOUT TO LAUNCH");
                                   Navigator.pop(context);
@@ -495,6 +443,37 @@ class _WtaDrawerState extends State<WtaDrawer> {
                       );
                     },
                   )),
+                  Divider(),
+                  Container(
+                    child: (widget.optionsGathered['ppOption'] == null)
+                        ? null
+                        : ListTile(
+                            leading: SizedBox(
+                              width: 40.0,
+                              height: 40.0,
+                              child: Icon(Icons.privacy_tip_outlined),
+                            ),
+                            title: Text(
+                              'Privacy Policy',
+                              style: TextStyle(
+                                fontFamily: 'ProductSans',
+                                color: Colors.black,
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w300,
+                              ),
+                            ).tr(),
+                            onTap: () {
+                              Navigator.pop(context);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => PrivacyPolicy(
+                                            policy: widget
+                                                .optionsGathered['ppText'],
+                                          )));
+                            },
+                          ),
+                  ),
                 ],
               ),
             );

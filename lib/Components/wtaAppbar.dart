@@ -30,16 +30,19 @@ class _WtaAppbarState extends State<WtaAppbar> {
   String str = "";
 
   Color _colorFromHex(String hexColor) {
-    final hexCode = hexColor.replaceAll('#', '');
-    return Color(int.parse('FF$hexCode', radix: 16));
+    if (hexColor != null) {
+      final hexCode = hexColor.replaceAll('#', '');
+      return Color(int.parse('FF$hexCode', radix: 16));
+    }
+    return Colors.white;
   }
 
   Future<File> getImageFile(String imgUrl) async {
     if (imgUrl != "" && imgUrl != null) {
       imgUrl = imgUrl.trim();
       imgUrl = imgUrl.replaceAll('localhost', baseIp);
-      //  print("IMGURL");
-      //  print(imgUrl);
+      print("IMGURL");
+      print(imgUrl);
       String folderName = 'images';
       String requiredPath;
       final Directory documentDirectory =
@@ -155,7 +158,11 @@ class _WtaAppbarState extends State<WtaAppbar> {
                     gradient: LinearGradient(
                       colors: [
                         _colorFromHex(widget.optionsGathered['colSelFirst']),
-                        widget.optionsGathered['gradientOptionSelected'] == 'no'
+                        ((widget.optionsGathered['gradientOptionSelected'] ==
+                                    'no') ||
+                                (widget.optionsGathered[
+                                        'gradientOptionSelected'] ==
+                                    null))
                             ? _colorFromHex(
                                 widget.optionsGathered['colSelFirst'])
                             : _colorFromHex(

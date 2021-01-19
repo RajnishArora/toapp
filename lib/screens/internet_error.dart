@@ -14,13 +14,8 @@ class _InternetErrorState extends State<InternetError> {
         children: [
           Center(
             child: Image(
-              image: AssetImage('assets/icon/sad-face.jpg'),
+              image: AssetImage('assets/icon/noNet.png'),
             ),
-          ),
-          Text('The device has no Internet Connection'),
-          TextButton(
-            child: Text('Check Connectivity Again '),
-            onPressed: () {},
           ),
         ],
       ),

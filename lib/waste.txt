@@ -1,3 +1,51 @@
+//onTap: () {
+                                // print("TTTTT");
+                                // Navigator.pop(context);
+                                // FocusScope.of(context)
+                                //     .unfocus(); //minimize keyboard
+                                // _buildWaitingScreen(
+                                //     widget.optionsGathered, widget.completer);
+                                //controller.inState(ConnectionState.waiting);
+                                // return FutureBuilder(
+                                //     future: controller.data
+                                //         .loadUrl(lMenuItemUrls[k]),
+                                //     builder: (BuildContext context,
+                                //         AsyncSnapshot snapshot) {
+                                //       if (snapshot.connectionState ==
+                                //           ConnectionState.done) {
+                                //         print("HHHHHH");
+                                //       } else {
+                                //         return CircularProgressIndicator();
+                                //       }
+                                //       return CircularProgressIndicator();
+                                //     });
+                                //},
+
+  //
+  // Future<String> _urlLoaded(int k, WebViewController controller) async {
+  //   await Future.delayed(Duration(seconds: 1));
+  //
+  //   if (lMenuItemNames[k] == 'Home') {
+  //     return (widget.optionsGathered['mainUrl']);
+  //   } else {
+  //     return (lMenuItemUrls[k]);
+  //   }
+  // }
+  //
+  // Future buildText() {
+  //   return new Future.delayed(
+  //       const Duration(seconds: 5), () => print('waiting'));
+  // }
+
+
+
+at line 34 in android/idea/modules.xml line 34
+<module fileurl="file://$PROJECT_DIR$/.idea/modules/-195362783/io.flutter.plugins.share-share.iml" filepath="$PROJECT_DIR$/.idea/modules/-195362783/io.flutter.plugins.share-share.iml" group="android/share" />
+      line 45
+<module fileurl="file://$PROJECT_DIR$/.idea/modules/728350231/shared_preferences-0.5.12+4-android-shared_preferences.iml" filepath="$PROJECT_DIR$/.idea/modules/728350231/shared_preferences-0.5.12+4-android-shared_preferences.iml" group="android/shared_preferences" />
+
+
+
 //return new Io.File('$path/${DateTime.now().toUtc().toIso8601String()}.png')..writeAsBytesSync(encodePng(thumbnail));
 
 

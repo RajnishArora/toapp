@@ -64,6 +64,7 @@ class _MyAppState extends State<MyApp> {
   var _defaultHome;
 
   void getHomePage() {
+    _defaultHome = WebViewClass(optionsGathered: widget.options);
     switch (_source.keys.toList()[0]) {
       case ConnectivityResult.none:
         setState(() {
@@ -81,12 +82,6 @@ class _MyAppState extends State<MyApp> {
         });
         break;
     }
-    // if (hasNet) {
-    //   _defaultHome = WebViewClass(optionsGathered: widget.options);
-    // } else {
-    //   _defaultHome = InternetError();
-    // }
-    //  return _defaultHome;
   }
 
   @override
@@ -136,7 +131,7 @@ class MyConnectivity {
   }
 
   void _checkStatus(ConnectivityResult result) async {
-    bool isOnline = false;
+    bool isOnline = true;
     try {
       final result = await InternetAddress.lookup('example.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
