@@ -68,7 +68,7 @@ class _WebViewClassState extends State<WebViewClass> {
   @override
   void dispose() {
     if (widget.optionsGathered['admobOption'] == 'banner') {
-      _bannerAd?.dispose();
+      _bannerAd.dispose();
     }
 
     super.dispose();
@@ -158,9 +158,9 @@ class _WebViewClassState extends State<WebViewClass> {
     return JavascriptChannel(
         name: 'Toaster',
         onMessageReceived: (JavascriptMessage message) {
+          // ignore: deprecated_member_use
           Scaffold.of(context).showSnackBar(
-            SnackBar(
-                content: Text(message.message != null ? message.message : ' ')),
+            SnackBar(content: Text(message.message)),
             //SnackBar(content: Text("JavaScript Message")),
           );
         });

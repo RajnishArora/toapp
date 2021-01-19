@@ -71,8 +71,11 @@ class _BtnActionState extends State<BtnAction> {
                       case 'lhome':
                       case 'rhome':
                         try {
-                          controller.data
-                              .loadUrl(widget.optionsGathered['mainUrl']);
+                          if (controller.data != null) {
+                            controller.data
+                                .loadUrl(widget.optionsGathered['mainUrl']);
+                          }
+
                           //loadCurrentUrl(_controller.future, widget.optionsGathered['mainUrl']);
                           //LoadCurrentUrl(_controller, widget.optionsGathered['mainUrl']);
                         } catch (e) {

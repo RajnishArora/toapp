@@ -17,7 +17,13 @@ void main() async {
 
   LoadingClass loadingClass = LoadingClass();
   loadingClass.initOneSignal();
-  Map<String, dynamic> options = await loadingClass.getOptionsData();
+
+  Future<Map<String, dynamic>> getMap() async {
+    Map<String, dynamic> options = await loadingClass.getOptionsData();
+    return options;
+  }
+
+  //
   runApp(EasyLocalization(
     supportedLocales: [
       Locale('en'),
@@ -34,7 +40,7 @@ void main() async {
     path: 'assets/translations',
     fallbackLocale: Locale('en', 'US'),
     child: MyApp(
-      options: options,
+      options: await getMap(),
     ),
   ));
 }

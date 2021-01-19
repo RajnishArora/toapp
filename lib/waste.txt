@@ -1,3 +1,26 @@
+(() {
+                      if (widget.optionsGathered['headerOption'] ==
+                          'only-text') {
+                        return Text(widget.optionsGathered['appTitle']);
+                      } else if (widget.optionsGathered['headerOption'] ==
+                          'only-image') {
+                        return FutureBuilder(
+                            future: titleImage,
+                            builder: (BuildContext context,
+                                AsyncSnapshot<File> snapshot) {
+                              if (snapshot.hasData) {
+                                return Image.file(snapshot.data!);
+                              } else {
+                                return Container();
+                              }
+                            });
+                      } else {
+                        Container();
+                        // headerOption == "nothing so do nothing
+                      }
+                    }()),
+
+
 //onTap: () {
                                 // print("TTTTT");
                                 // Navigator.pop(context);

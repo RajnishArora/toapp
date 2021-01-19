@@ -12,12 +12,10 @@ import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
 
 class WtaAppbar extends StatefulWidget implements PreferredSizeWidget {
-  WtaAppbar({Key key, this.optionsGathered, this.completer})
-      : preferredSize = Size.fromHeight(60.0),
-        super(key: key);
+  WtaAppbar({this.optionsGathered, this.completer});
 
   @override
-  final Size preferredSize;
+  final Size preferredSize = Size.fromHeight(60.0);
   //WtaAppbar({this.optionsGathered, this.completer});
   final Map<String, dynamic> optionsGathered;
 
@@ -30,15 +28,12 @@ class _WtaAppbarState extends State<WtaAppbar> {
   String str = "";
 
   Color _colorFromHex(String hexColor) {
-    if (hexColor != null) {
-      final hexCode = hexColor.replaceAll('#', '');
-      return Color(int.parse('FF$hexCode', radix: 16));
-    }
-    return Colors.white;
+    final hexCode = hexColor.replaceAll('#', '');
+    return Color(int.parse('FF$hexCode', radix: 16));
   }
 
   Future<File> getImageFile(String imgUrl) async {
-    if (imgUrl != "" && imgUrl != null) {
+    if (imgUrl != "") {
       imgUrl = imgUrl.trim();
       imgUrl = imgUrl.replaceAll('localhost', baseIp);
       print("IMGURL");
@@ -88,9 +83,9 @@ class _WtaAppbarState extends State<WtaAppbar> {
       }
       //print("returning original method");
       //return File(str);
-      return null;
+      return File("");
     }
-    return null;
+    return File("");
   }
 
   @override
@@ -100,8 +95,9 @@ class _WtaAppbarState extends State<WtaAppbar> {
 
     final Future<File> titleImage =
         getImageFile(widget.optionsGathered['imageLocation']);
+
     if (hideAppbar) {
-      return null;
+      return Container();
     } else {
       return FutureBuilder<WebViewController>(
           future: widget.completer.future,
@@ -129,28 +125,25 @@ class _WtaAppbarState extends State<WtaAppbar> {
                         return Container();
                       }
                     }()),
-                    Expanded(
-                      child: (() {
-                        if (widget.optionsGathered['headerOption'] ==
-                            'only-text') {
-                          return Text(widget.optionsGathered['appTitle']);
-                        } else if (widget.optionsGathered['headerOption'] ==
-                            'only-image') {
-                          return FutureBuilder(
-                              future: titleImage,
-                              builder: (BuildContext context,
-                                  AsyncSnapshot<File> snapshot) {
-                                if (snapshot.hasData) {
-                                  return Image.file(snapshot.data);
-                                } else {
-                                  return Container();
-                                }
-                              });
-                        } else {
-                          // headerOption == "nothing so do nothing
-                        }
-                      }()),
-                    ),
+                    (() {
+                      if (widget.optionsGathered['headerOption'] ==
+                          'only-text') {
+                        return Text(widget.optionsGathered['appTitle']);
+                      } else if (widget.optionsGathered['headerOption'] ==
+                          'only-image') {
+                        return FutureBuilder(
+                            future: titleImage,
+                            builder: (BuildContext context,
+                                AsyncSnapshot<File> snapshot) {
+                              if (snapshot.hasData) {
+                                return Image.file(snapshot.data);
+                              }
+                              return Container();
+                            });
+                      } else {
+                        return Container();
+                      }
+                    }()),
                   ],
                 ),
                 flexibleSpace: Container(

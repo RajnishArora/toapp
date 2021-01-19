@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -45,7 +44,7 @@ class _WtaDrawerState extends State<WtaDrawer> {
   }
 
   Future<File> getImageFile(String imgUrl) async {
-    if (imgUrl != "" && imgUrl != null) {
+    if (imgUrl != "") {
       imgUrl = imgUrl.trim();
       imgUrl = imgUrl.replaceAll('localhost', baseIp);
 
@@ -92,9 +91,9 @@ class _WtaDrawerState extends State<WtaDrawer> {
       }
       //print("returning original method");
       //return File(str);
-      return null;
+      return File("");
     }
-    return null;
+    return File("");
   }
 
   Icon getFAIcon(String str) {
@@ -263,7 +262,8 @@ class _WtaDrawerState extends State<WtaDrawer> {
                                     future: drawerHeaderImage,
                                     builder: (BuildContext context,
                                         AsyncSnapshot<File> snapshot) {
-                                      if (snapshot.hasData) {
+                                      if (snapshot.hasData &&
+                                          snapshot.data != null) {
                                         return SizedBox(
                                           //width: 100.0,
                                           height: 70.0,

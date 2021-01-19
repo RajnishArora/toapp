@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:http/http.dart' as http;
 //import 'dart:convert';
 
@@ -14,7 +16,7 @@ class OptionsGatherer {
           seconds: 5,
         ), onTimeout: () {
       print('FAILED BY TIMEOUT');
-      return null;
+      throw TimeoutException('Failed by TimeOut');
     });
     print("RESPONSE");
     print(response);

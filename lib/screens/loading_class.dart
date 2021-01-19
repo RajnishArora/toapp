@@ -12,7 +12,7 @@ class LoadingClass {
     FirebaseNotifications().setUpFirebase();
   }
 
-  Future<Map> getOptionsData() async {
+  Future<Map<String, dynamic>> getOptionsData() async {
     var options = Map<String, dynamic>();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     //String url = baseUrl + 'try_rest_api/app/optionsapi.php';
@@ -30,7 +30,7 @@ class LoadingClass {
         });
       } else {
         print("raw Json failed");
-        return null;
+        //return null;
       }
     } catch (e) {
       print("no host so looking for shared pref");

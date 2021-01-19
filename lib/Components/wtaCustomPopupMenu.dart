@@ -14,9 +14,9 @@ class CustomPopupMenu extends StatefulWidget {
 }
 
 class _CustomPopupMenuState extends State<CustomPopupMenu> {
-  var rMenuItemNames = List();
+  var rMenuItemNames = [];
   //List rMenuItemNames;
-  var rMenuItemUrls = List();
+  var rMenuItemUrls = [];
 
   void createEllipsisArray() {
     if (rMenuItemNames.isNotEmpty) {
