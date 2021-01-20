@@ -40,14 +40,14 @@ dependencies:
   flutter_launcher_icons: ^0.8.1
   share: ^0.6.5+4
 #  minimize_app: ^0.1.1
-  move_to_background: ^1.0.1
   connectivity: ^2.0.2
   data_connection_checker: ^0.3.4
-  easy_localization: ^2.3.3+1
+  easy_localization: ^2.3.3
   firebase_core: ^0.5.2
   firebase_admob: ^0.10.2
   firebase_messaging: ^7.0.3
   onesignal_flutter: ^2.6.1
+  move_to_background: ^1.0.1
 
 dev_dependencies:
   flutter_test:
