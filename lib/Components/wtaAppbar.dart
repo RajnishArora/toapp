@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+//import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:webtoapp/Components/wtaBtnAction.dart';
 import 'package:webtoapp/Components/wtaCustomPopupMenu.dart';
@@ -38,7 +38,7 @@ class _WtaAppbarState extends State<WtaAppbar> {
       imgUrl = imgUrl.replaceAll('localhost', baseIp);
       print("IMGURL");
       print(imgUrl);
-      String folderName = 'images';
+      String folderName = 'wtaImages';
       String requiredPath;
       final Directory documentDirectory =
           await getApplicationDocumentsDirectory();
@@ -105,47 +105,24 @@ class _WtaAppbarState extends State<WtaAppbar> {
               AsyncSnapshot<WebViewController> controller) {
             if (controller.hasData) {
               return AppBar(
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    (() {
-                      if (widget.optionsGathered['leftIcon'] != 'lback' &&
-                          Platform.isIOS) {
-                        return IconButton(
-                          icon: Icon(
-                            FontAwesomeIcons.arrowLeft,
-                            color: Colors.white,
-                          ),
-                          onPressed: () {
-                            controller.data.goBack();
-                          },
-                        );
-                      } else {
-                        return Container();
-                      }
-                    }()),
-                    (() {
-                      if (widget.optionsGathered['headerOption'] ==
-                          'only-text') {
-                        return Text(widget.optionsGathered['appTitle']);
-                      } else if (widget.optionsGathered['headerOption'] ==
-                          'only-image') {
-                        return FutureBuilder(
-                            future: titleImage,
-                            builder: (BuildContext context,
-                                AsyncSnapshot<File> snapshot) {
-                              if (snapshot.hasData) {
-                                return Image.file(snapshot.data);
-                              }
-                              return Container();
-                            });
-                      } else {
-                        return Container();
-                      }
-                    }()),
-                  ],
-                ),
+                title: (() {
+                  if (widget.optionsGathered['headerOption'] == 'only-text') {
+                    return Text(widget.optionsGathered['appTitle']);
+                  } else if (widget.optionsGathered['headerOption'] ==
+                      'only-image') {
+                    return FutureBuilder(
+                        future: titleImage,
+                        builder: (BuildContext context,
+                            AsyncSnapshot<File> snapshot) {
+                          if (snapshot.hasData) {
+                            return Image.file(snapshot.data);
+                          }
+                          return Container();
+                        });
+                  } else {
+                    return Container();
+                  }
+                }()),
                 flexibleSpace: Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(

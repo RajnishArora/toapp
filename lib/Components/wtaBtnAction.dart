@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 //import 'package:move_to_background/move_to_background.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:move_to_background/move_to_background.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -57,14 +58,22 @@ class _BtnActionState extends State<BtnAction> {
           //&&  ( backPossible(controller.data) == Future.value(false) )
           if (controller.hasData) {
             return IconButton(
-                icon: _getHeaderIcon
-                    .getHeaderIcon(widget.optionsGathered[widget.str + 'Icon']),
+                icon: (backPossible(controller.data) == Future.value(true) &&
+                        Platform.isIOS)
+                    ? Icon(FontAwesomeIcons.arrowLeft)
+                    : _getHeaderIcon.getHeaderIcon(
+                        widget.optionsGathered[widget.str + 'Icon']),
                 onPressed: () {
-                  //print("HA HA H");
-                  String optionChosen =
-                      widget.optionsGathered[widget.str + 'Icon'];
+                  String optionChosen;
+                  if (backPossible(controller.data) == Future.value(true) &&
+                      Platform.isIOS) {
+                    optionChosen = 'lback';
+                  } else {
+                    optionChosen = widget.optionsGathered[widget.str + 'Icon'];
+                  }
                   if (widget.str == 'left' &&
-                      widget.optionsGathered['leftIcon'] == 'lmenu') {
+                      widget.optionsGathered['leftIcon'] == 'lmenu' &&
+                      optionChosen != 'lback') {
                     Scaffold.of(context).openDrawer();
                   } else {
                     switch (optionChosen) {

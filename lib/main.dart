@@ -20,6 +20,7 @@ void main() async {
 
   Future<Map<String, dynamic>> getMap() async {
     Map<String, dynamic> options = await loadingClass.getOptionsData();
+    loadingClass.createImagesDir();
     return options;
   }
 

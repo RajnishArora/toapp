@@ -48,7 +48,7 @@ class _WtaDrawerState extends State<WtaDrawer> {
       imgUrl = imgUrl.trim();
       imgUrl = imgUrl.replaceAll('localhost', baseIp);
 
-      String folderName = 'images';
+      String folderName = 'wtaImages';
       String requiredPath;
       final Directory documentDirectory =
           await getApplicationDocumentsDirectory();
