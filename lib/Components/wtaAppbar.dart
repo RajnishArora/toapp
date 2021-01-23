@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-//import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:webtoapp/Components/wtaBtnAction.dart';
 import 'package:webtoapp/Components/wtaCustomPopupMenu.dart';
@@ -105,24 +105,65 @@ class _WtaAppbarState extends State<WtaAppbar> {
               AsyncSnapshot<WebViewController> controller) {
             if (controller.hasData) {
               return AppBar(
-                title: (() {
-                  if (widget.optionsGathered['headerOption'] == 'only-text') {
-                    return Text(widget.optionsGathered['appTitle']);
-                  } else if (widget.optionsGathered['headerOption'] ==
-                      'only-image') {
-                    return FutureBuilder(
-                        future: titleImage,
-                        builder: (BuildContext context,
-                            AsyncSnapshot<File> snapshot) {
-                          if (snapshot.hasData) {
-                            return Image.file(snapshot.data);
-                          }
-                          return Container();
-                        });
-                  } else {
-                    return Container();
-                  }
-                }()),
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    (() {
+                      if (widget.optionsGathered['leftIcon'] != 'lback' &&
+                          Platform.isIOS) {
+                        return IconButton(
+                          icon: Icon(
+                            FontAwesomeIcons.arrowLeft,
+                            color: Colors.white,
+                          ),
+                          onPressed: () {
+                            controller.data.goBack();
+                          },
+                        );
+                      } else {
+                        return Container();
+                      }
+                    }()),
+                    (() {
+                      if (widget.optionsGathered['headerOption'] ==
+                          'only-text') {
+                        return Text(widget.optionsGathered['appTitle']);
+                      } else if (widget.optionsGathered['headerOption'] ==
+                          'only-image') {
+                        return FutureBuilder(
+                            future: titleImage,
+                            builder: (BuildContext context,
+                                AsyncSnapshot<File> snapshot) {
+                              if (snapshot.hasData) {
+                                return Image.file(snapshot.data);
+                              }
+                              return Container();
+                            });
+                      } else {
+                        return Container();
+                      }
+                    }()),
+                  ],
+                ),
+                // title: (() {
+                //   if (widget.optionsGathered['headerOption'] == 'only-text') {
+                //     return Text(widget.optionsGathered['appTitle']);
+                //   } else if (widget.optionsGathered['headerOption'] ==
+                //       'only-image') {
+                //     return FutureBuilder(
+                //         future: titleImage,
+                //         builder: (BuildContext context,
+                //             AsyncSnapshot<File> snapshot) {
+                //           if (snapshot.hasData) {
+                //             return Image.file(snapshot.data);
+                //           }
+                //           return Container();
+                //         });
+                //   } else {
+                //     return Container();
+                //   }
+                // }()),
                 flexibleSpace: Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -148,15 +189,19 @@ class _WtaAppbarState extends State<WtaAppbar> {
                         ? true
                         : false,
                 //backgroundColor: _colorFromHex(widget.optionsGathered['colSelFirst']),
-                leading: Builder(
-                  //using builder so that we can get context
-                  builder: (context) => BtnAction(
-                      completer: widget.completer,
-                      optionsGathered: widget.optionsGathered,
-                      str: 'left'),
-                ),
+                // leading: Builder(
+                //   //using builder so that we can get context
+                //   builder: (context) => BtnAction(
+                //       completer: widget.completer,
+                //       optionsGathered: widget.optionsGathered,
+                //       str: 'left'),
+                // ),
+                leading: BtnAction(
+                    completer: widget.completer,
+                    optionsGathered: widget.optionsGathered,
+                    str: 'left'),
                 actions: [
-                  //switch not working
+                  //switch not working so using conditional
                   widget.optionsGathered['rightFirstIcon'] == 'rmenu'
                       ? (CustomPopupMenu(
                           optionsGathered: widget.optionsGathered,

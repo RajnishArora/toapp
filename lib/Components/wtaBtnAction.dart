@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 //import 'package:move_to_background/move_to_background.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+//import 'package:flutter/scheduler.dart';
+//import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:move_to_background/move_to_background.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -47,6 +48,31 @@ class _BtnActionState extends State<BtnAction> {
     }
   }
 
+  bool changeIcon = false;
+  //
+  // Widget setIcon() {
+  //   Widget newIcon = _getHeaderIcon
+  //       .getHeaderIcon(widget.optionsGathered[widget.str + 'Icon']);
+  //
+  //   if (changeIcon == true) {
+  //     SchedulerBinding.instance.addPostFrameCallback((_) => setState(() {
+  //           newIcon = Icon(FontAwesomeIcons.arrowLeft);
+  //         }));
+  //     //setState(() {
+  //
+  //     //});
+  //   } else {
+  //     //setState(() {
+  //     SchedulerBinding.instance.addPostFrameCallback((_) => setState(() {
+  //           newIcon = _getHeaderIcon
+  //               .getHeaderIcon(widget.optionsGathered[widget.str + 'Icon']);
+  //         }));
+  //
+  //     //});
+  //   }
+  //   return newIcon;
+  // }
+
   @override
   Widget build(BuildContext context) {
     print("IN BTN ACTION CLASS");
@@ -58,19 +84,12 @@ class _BtnActionState extends State<BtnAction> {
           //&&  ( backPossible(controller.data) == Future.value(false) )
           if (controller.hasData) {
             return IconButton(
-                icon: (backPossible(controller.data) == Future.value(true) &&
-                        Platform.isIOS)
-                    ? Icon(FontAwesomeIcons.arrowLeft)
-                    : _getHeaderIcon.getHeaderIcon(
-                        widget.optionsGathered[widget.str + 'Icon']),
+                icon: _getHeaderIcon
+                    .getHeaderIcon(widget.optionsGathered[widget.str + 'Icon']),
                 onPressed: () {
-                  String optionChosen;
-                  if (backPossible(controller.data) == Future.value(true) &&
-                      Platform.isIOS) {
-                    optionChosen = 'lback';
-                  } else {
-                    optionChosen = widget.optionsGathered[widget.str + 'Icon'];
-                  }
+                  String optionChosen =
+                      widget.optionsGathered[widget.str + 'Icon'];
+
                   if (widget.str == 'left' &&
                       widget.optionsGathered['leftIcon'] == 'lmenu' &&
                       optionChosen != 'lback') {
