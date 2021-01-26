@@ -1,3 +1,90 @@
+// leading: BtnAction(
+                //     completer: widget.completer,
+                //     optionsGathered: widget.optionsGathered,
+                //     str: 'left'),
+//backgroundColor: _colorFromHex(widget.optionsGathered['colSelFirst']),
+                // leading: Builder(
+                //   //using builder so that we can get context
+                //   builder: (context) => BtnAction(
+                //       completer: widget.completer,
+                //       optionsGathered: widget.optionsGathered,
+                //       str: 'left'),
+                // ),
+                // leading: (() {
+                //   if (widget.optionsGathered['leftIcon'] != 'lback'
+                //       //    && Platform.isIOS
+                //       ) {
+                //     return Row(
+                //       children: [
+                //         Flexible(
+                //           child: IconButton(
+                //               icon: Icon(
+                //                 FontAwesomeIcons.arrowLeft,
+                //                 color: Colors.white,
+                //               ),
+                //               onPressed: () {
+                //                 controller.data.goBack();
+                //               }),
+                //         ),
+                //         SizedBox(
+                //           width: 20.0,
+                //         ),
+                //         Flexible(
+                //           child: BtnAction(
+                //               completer: widget.completer,
+                //               optionsGathered: widget.optionsGathered,
+                //               str: 'left'),
+                //         ),
+                //       ],
+                //     );
+                //   } else {
+                //     return BtnAction(
+                //         completer: widget.completer,
+                //         optionsGathered: widget.optionsGathered,
+                //         str: 'left');
+                //   }
+                // }()),
+// title: Row(
+                //   mainAxisAlignment: MainAxisAlignment.start,
+                //   crossAxisAlignment: CrossAxisAlignment.center,
+                //   children: [
+                //     (() {
+                //       if (widget.optionsGathered['leftIcon'] != 'lback' &&
+                //           Platform.isIOS) {
+                //         return IconButton(
+                //           icon: Icon(
+                //             FontAwesomeIcons.arrowLeft,
+                //             color: Colors.white,
+                //           ),
+                //           onPressed: () {
+                //             controller.data.goBack();
+                //           },
+                //         );
+                //       } else {
+                //         return Container();
+                //       }
+                //     }()),
+                //     (() {
+                //       if (widget.optionsGathered['headerOption'] ==
+                //           'only-text') {
+                //         return Text(widget.optionsGathered['appTitle']);
+                //       } else if (widget.optionsGathered['headerOption'] ==
+                //           'only-image') {
+                //         return FutureBuilder(
+                //             future: titleImage,
+                //             builder: (BuildContext context,
+                //                 AsyncSnapshot<File> snapshot) {
+                //               if (snapshot.hasData) {
+                //                 return Image.file(snapshot.data);
+                //               }
+                //               return Container();
+                //             });
+                //       } else {
+                //         return Container();
+                //       }
+                //     }()),
+                //   ],
+                // ),
 title: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,

@@ -324,14 +324,14 @@ class _WtaDrawerState extends State<WtaDrawer> {
                                           AsyncSnapshot<File> snapshot) {
                                         if (snapshot.hasData) {
                                           return SizedBox(
-                                            width: 40.0,
-                                            height: 40.0,
+                                            width: 25.0,
+                                            height: 25.0,
                                             child: Image.file(snapshot.data),
                                           );
                                         }
                                         return Container(
-                                          width: 40.0,
-                                          height: 40.0,
+                                          width: 25.0,
+                                          height: 25.0,
                                           //child: Text('Oh!'),
                                         );
                                       });
@@ -378,8 +378,8 @@ class _WtaDrawerState extends State<WtaDrawer> {
                   Container(
                     child: ListTile(
                       leading: SizedBox(
-                        width: 40.0,
-                        height: 40.0,
+                        width: 25.0,
+                        height: 25.0,
                         child: Icon(Icons.language),
                       ),
                       title: Text(
@@ -449,8 +449,8 @@ class _WtaDrawerState extends State<WtaDrawer> {
                         ? null
                         : ListTile(
                             leading: SizedBox(
-                              width: 40.0,
-                              height: 40.0,
+                              width: 25.0,
+                              height: 25.0,
                               child: Icon(Icons.privacy_tip_outlined),
                             ),
                             title: Text(

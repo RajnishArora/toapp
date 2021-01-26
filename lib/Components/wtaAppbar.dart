@@ -15,7 +15,7 @@ class WtaAppbar extends StatefulWidget implements PreferredSizeWidget {
   WtaAppbar({this.optionsGathered, this.completer});
 
   @override
-  final Size preferredSize = Size.fromHeight(60.0);
+  final Size preferredSize = Size.fromHeight(56.0);
   //WtaAppbar({this.optionsGathered, this.completer});
   final Map<String, dynamic> optionsGathered;
 
@@ -88,6 +88,39 @@ class _WtaAppbarState extends State<WtaAppbar> {
     return File("");
   }
 
+  Widget getIconRow(WebViewController _controller) {
+    if (widget.optionsGathered['leftIcon'] != 'lback' && Platform.isIOS) {
+      return Row(
+        children: [
+          Flexible(
+            child: IconButton(
+                icon: Icon(
+                  FontAwesomeIcons.arrowLeft,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  _controller.goBack();
+                }),
+          ),
+          SizedBox(
+            width: 20.0,
+          ),
+          Flexible(
+            child: BtnAction(
+                completer: widget.completer,
+                optionsGathered: widget.optionsGathered,
+                str: 'left'),
+          ),
+        ],
+      );
+    } else {
+      return BtnAction(
+          completer: widget.completer,
+          optionsGathered: widget.optionsGathered,
+          str: 'left');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     bool hideAppbar =
@@ -105,65 +138,24 @@ class _WtaAppbarState extends State<WtaAppbar> {
               AsyncSnapshot<WebViewController> controller) {
             if (controller.hasData) {
               return AppBar(
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    (() {
-                      if (widget.optionsGathered['leftIcon'] != 'lback' &&
-                          Platform.isIOS) {
-                        return IconButton(
-                          icon: Icon(
-                            FontAwesomeIcons.arrowLeft,
-                            color: Colors.white,
-                          ),
-                          onPressed: () {
-                            controller.data.goBack();
-                          },
-                        );
-                      } else {
-                        return Container();
-                      }
-                    }()),
-                    (() {
-                      if (widget.optionsGathered['headerOption'] ==
-                          'only-text') {
-                        return Text(widget.optionsGathered['appTitle']);
-                      } else if (widget.optionsGathered['headerOption'] ==
-                          'only-image') {
-                        return FutureBuilder(
-                            future: titleImage,
-                            builder: (BuildContext context,
-                                AsyncSnapshot<File> snapshot) {
-                              if (snapshot.hasData) {
-                                return Image.file(snapshot.data);
-                              }
-                              return Container();
-                            });
-                      } else {
-                        return Container();
-                      }
-                    }()),
-                  ],
-                ),
-                // title: (() {
-                //   if (widget.optionsGathered['headerOption'] == 'only-text') {
-                //     return Text(widget.optionsGathered['appTitle']);
-                //   } else if (widget.optionsGathered['headerOption'] ==
-                //       'only-image') {
-                //     return FutureBuilder(
-                //         future: titleImage,
-                //         builder: (BuildContext context,
-                //             AsyncSnapshot<File> snapshot) {
-                //           if (snapshot.hasData) {
-                //             return Image.file(snapshot.data);
-                //           }
-                //           return Container();
-                //         });
-                //   } else {
-                //     return Container();
-                //   }
-                // }()),
+                title: (() {
+                  if (widget.optionsGathered['headerOption'] == 'only-text') {
+                    return Text(widget.optionsGathered['appTitle']);
+                  } else if (widget.optionsGathered['headerOption'] ==
+                      'only-image') {
+                    return FutureBuilder(
+                        future: titleImage,
+                        builder: (BuildContext context,
+                            AsyncSnapshot<File> snapshot) {
+                          if (snapshot.hasData) {
+                            return Image.file(snapshot.data);
+                          }
+                          return Container();
+                        });
+                  } else {
+                    return Container();
+                  }
+                }()),
                 flexibleSpace: Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -188,18 +180,7 @@ class _WtaAppbarState extends State<WtaAppbar> {
                     widget.optionsGathered['titleAlign'] == 'center-align'
                         ? true
                         : false,
-                //backgroundColor: _colorFromHex(widget.optionsGathered['colSelFirst']),
-                // leading: Builder(
-                //   //using builder so that we can get context
-                //   builder: (context) => BtnAction(
-                //       completer: widget.completer,
-                //       optionsGathered: widget.optionsGathered,
-                //       str: 'left'),
-                // ),
-                leading: BtnAction(
-                    completer: widget.completer,
-                    optionsGathered: widget.optionsGathered,
-                    str: 'left'),
+                leading: getIconRow(controller.data),
                 actions: [
                   //switch not working so using conditional
                   widget.optionsGathered['rightFirstIcon'] == 'rmenu'

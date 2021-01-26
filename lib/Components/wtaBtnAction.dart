@@ -48,7 +48,7 @@ class _BtnActionState extends State<BtnAction> {
     }
   }
 
-  bool changeIcon = false;
+  //bool changeIcon = false;
   //
   // Widget setIcon() {
   //   Widget newIcon = _getHeaderIcon
@@ -91,8 +91,7 @@ class _BtnActionState extends State<BtnAction> {
                       widget.optionsGathered[widget.str + 'Icon'];
 
                   if (widget.str == 'left' &&
-                      widget.optionsGathered['leftIcon'] == 'lmenu' &&
-                      optionChosen != 'lback') {
+                      widget.optionsGathered['leftIcon'] == 'lmenu') {
                     Scaffold.of(context).openDrawer();
                   } else {
                     switch (optionChosen) {
