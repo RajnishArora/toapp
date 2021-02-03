@@ -2,9 +2,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-//import 'package:image/image.dart';
 import 'package:path_provider/path_provider.dart';
-//import 'package:webtoapp/Components/wtaAppbar.dart';
 import 'package:webtoapp/screens/language_screen.dart';
 import 'package:webtoapp/screens/privacy_policy.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -75,10 +73,6 @@ class _WtaDrawerState extends State<WtaDrawer> {
         print("FILE ALREADY EXISTS SO NO SAVING");
         return file;
       }
-      //String str = filename;
-      //File fileNew = File(path.join(requiredPath, filename));
-      //print("FILE PATH");
-      //print(filename);
       try {
         var response = await http.get(imgUrl);
         print("FILE COPIED");
@@ -89,34 +83,93 @@ class _WtaDrawerState extends State<WtaDrawer> {
         print("Could not copy file");
         print(e);
       }
-      //print("returning original method");
-      //return File(str);
       return File("");
     }
     return File("");
   }
 
+  Color _headerBgColor = Colors.white;
+  Color _drawerBgColor = Colors.white;
+  Color _fontColor = Colors.black;
+
+  void setDrawerColors() {
+    _headerBgColor = _colorFromHex(widget.optionsGathered['colSelFirst']);
+    switch (widget.optionsGathered['drawerHeaderCol']) {
+      case 'dark':
+        _headerBgColor = Colors.grey[900];
+        _fontColor = Colors.white;
+        break;
+      case 'light':
+        _headerBgColor = Colors.white;
+        _fontColor = Colors.black;
+        break;
+      case 'default':
+        _headerBgColor = _colorFromHex(widget.optionsGathered['colSelFirst']);
+        _fontColor = Colors.black;
+        break;
+      default:
+        _headerBgColor = _colorFromHex(widget.optionsGathered['colSelFirst']);
+        _fontColor = Colors.black;
+        break;
+    }
+    switch (widget.optionsGathered['drawerBackgroundCol']) {
+      case 'dark':
+        _drawerBgColor = Colors.grey[800];
+        _fontColor = Colors.white;
+        break;
+      case 'light':
+        _drawerBgColor = Colors.white;
+        _fontColor = Colors.black;
+        break;
+      default:
+        _drawerBgColor = Colors.white;
+        _fontColor = Colors.black;
+        break;
+    }
+  }
+
   Icon getFAIcon(String str) {
-    Icon ic = Icon(FontAwesomeIcons.android);
+    Icon ic = Icon(
+      FontAwesomeIcons.android,
+      color: _fontColor,
+    );
     switch (str) {
       case 'Facebook':
-        ic = Icon(FontAwesomeIcons.facebookF);
+        ic = Icon(
+          FontAwesomeIcons.facebookF,
+          color: _fontColor,
+        );
         break;
       case 'Whatsapp':
-        ic = Icon(FontAwesomeIcons.whatsapp);
+        ic = Icon(
+          FontAwesomeIcons.whatsapp,
+          color: _fontColor,
+        );
         break;
       case 'Instagram':
-        ic = Icon(FontAwesomeIcons.instagram);
+        ic = Icon(
+          FontAwesomeIcons.instagram,
+          color: _fontColor,
+        );
         break;
       case 'Youtube':
-        ic = Icon(FontAwesomeIcons.youtube);
+        ic = Icon(
+          FontAwesomeIcons.youtube,
+          color: _fontColor,
+        );
         break;
 
       case 'SMS':
-        ic = Icon(FontAwesomeIcons.sms);
+        ic = Icon(
+          FontAwesomeIcons.sms,
+          color: _fontColor,
+        );
         break;
       case 'Call':
-        ic = Icon(FontAwesomeIcons.phone);
+        ic = Icon(
+          FontAwesomeIcons.phone,
+          color: _fontColor,
+        );
         break;
     }
     return ic;
@@ -172,16 +225,9 @@ class _WtaDrawerState extends State<WtaDrawer> {
       socialListUrl.add(getItemUrl(nameList[i], nameList[j]));
       i += 2;
     }
-    // for (int i = 0; i < len; i++) {
-    //   socialListName.add(nameList[i]);
-    //   socialListIcon.add(getFAIcon(nameList[i]));
-    //   socialListUrl.add(getItemUrl(nameList[i]));
-    // }
-    print("SOCIAL ARRAY");
-    //print(nameList);
-    //print(nameList.length);
-    print(socialListName);
-    print(socialListUrl);
+//    print("SOCIAL ARRAY");
+//    print(socialListName);
+//    print(socialListUrl);
   }
 
   void createBarArray() {
@@ -205,10 +251,6 @@ class _WtaDrawerState extends State<WtaDrawer> {
             .add(widget.optionsGathered['lmenuitemurl' + i.toString()]);
       }
     }
-    //print("LMENU ITEM ICONS");
-    //print(lMenuItemIcons);
-    //print(lMenuItemNames);
-    //print(lMenuItemUrls);
   }
 
   //creates array of file items in fileList
@@ -227,6 +269,7 @@ class _WtaDrawerState extends State<WtaDrawer> {
 
   @override
   Widget build(BuildContext context) {
+    setDrawerColors();
     createBarArray();
     createSocialArray();
     //Future<File> temp = getImageFile(lMenuItemIcons[0]);
@@ -245,50 +288,55 @@ class _WtaDrawerState extends State<WtaDrawer> {
           if (controller.hasData) {
             return Drawer(
               child: ListView(
+                //padding: EdgeInsets.only(top: 0),
                 children: [
                   Container(
-                    height: 155.0,
+                    padding: EdgeInsets.zero,
                     child: DrawerHeader(
+                      margin: EdgeInsets.zero,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: SizedBox(
-                              height: 70.0,
-                              child: (() {
-                                return FutureBuilder(
-                                    future: drawerHeaderImage,
-                                    builder: (BuildContext context,
-                                        AsyncSnapshot<File> snapshot) {
-                                      if (snapshot.hasData &&
-                                          snapshot.data != null) {
-                                        return SizedBox(
-                                          //width: 100.0,
+                          Flexible(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SizedBox(
+                                height: 70.0,
+                                child: (() {
+                                  return FutureBuilder(
+                                      future: drawerHeaderImage,
+                                      builder: (BuildContext context,
+                                          AsyncSnapshot<File> snapshot) {
+                                        if (snapshot.hasData &&
+                                            snapshot.data != null) {
+                                          return SizedBox(
+                                            //width: 100.0,
+                                            height: 70.0,
+                                            child: Image.file(snapshot.data),
+                                          );
+                                        }
+                                        return Container(
+                                          width: 70.0,
                                           height: 70.0,
-                                          child: Image.file(snapshot.data),
+                                          //child: Text('Oh!'),
                                         );
-                                      }
-                                      return Container(
-                                        width: 70.0,
-                                        height: 70.0,
-                                        //child: Text('Oh!'),
-                                      );
-                                    });
-                              }()),
+                                      });
+                                }()),
+                              ),
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.only(
+                                top: 16.0, right: 8.0, left: 8.0, bottom: 16.0),
                             child: (widget
                                         .optionsGathered['drawerHeaderText'] !=
                                     null)
                                 ? Text(
                                     widget.optionsGathered['drawerHeaderText'],
                                     style: TextStyle(
+                                      color: _fontColor,
                                       fontFamily: 'ProductSans',
-                                      fontSize: 20.0,
+                                      fontSize: 24.0,
                                     ),
                                   )
                                 : Container(),
@@ -296,15 +344,19 @@ class _WtaDrawerState extends State<WtaDrawer> {
                         ],
                       ),
                       decoration: BoxDecoration(
-                          color: _colorFromHex(
-                              widget.optionsGathered['colSelFirst']),
-                          border: Border.all(
+                        color: _headerBgColor,
+                        border: Border(
+                          bottom: BorderSide(
                             width: 1.0,
-                          )),
+                            color: _fontColor,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                   Container(
                     //height: double.maxFinite,
+                    color: _drawerBgColor,
                     child: (itemCount > 0)
                         ? ListView.builder(
                             shrinkWrap: true,
@@ -326,7 +378,10 @@ class _WtaDrawerState extends State<WtaDrawer> {
                                           return SizedBox(
                                             width: 25.0,
                                             height: 25.0,
-                                            child: Image.file(snapshot.data),
+                                            child: Image.file(
+                                              snapshot.data,
+                                              alignment: Alignment.center,
+                                            ),
                                           );
                                         }
                                         return Container(
@@ -343,7 +398,7 @@ class _WtaDrawerState extends State<WtaDrawer> {
                                     lMenuItemNames[k],
                                     style: TextStyle(
                                       fontFamily: 'ProductSans',
-                                      color: Colors.black,
+                                      color: _fontColor,
                                       fontSize: 16.0,
                                       fontWeight: FontWeight.w300,
                                     ),
@@ -374,19 +429,26 @@ class _WtaDrawerState extends State<WtaDrawer> {
                           )
                         : Center(child: Container()),
                   ),
-                  Divider(),
+                  Divider(
+                    height: 1.5,
+                    color: _fontColor,
+                  ),
                   Container(
+                    color: _drawerBgColor,
                     child: ListTile(
                       leading: SizedBox(
                         width: 25.0,
                         height: 25.0,
-                        child: Icon(Icons.language),
+                        child: Icon(
+                          Icons.language,
+                          color: _fontColor,
+                        ),
                       ),
                       title: Text(
                         'Languages',
                         style: TextStyle(
                           fontFamily: 'ProductSans',
-                          color: Colors.black,
+                          color: _fontColor,
                           fontSize: 16.0,
                           fontWeight: FontWeight.w300,
                         ),
@@ -402,62 +464,67 @@ class _WtaDrawerState extends State<WtaDrawer> {
                       },
                     ),
                   ),
-                  Divider(),
+                  Divider(
+                    height: 1.0,
+                    color: _fontColor,
+                  ),
                   Container(
+                      color: _drawerBgColor,
                       child: ListView.builder(
-                    shrinkWrap: true,
-                    padding: const EdgeInsets.only(
-                      top: 0.0,
-                    ),
-                    physics: ClampingScrollPhysics(),
-                    itemCount: socialItemCount,
-                    itemBuilder: (BuildContext context, index) {
-                      return ListTile(
-                        leading: socialListIcon[index],
-                        title: Text(
-                          socialListName[index],
-                          style: TextStyle(
-                            fontFamily: 'ProductSans',
-                            color: Colors.black,
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w300,
-                          ),
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.only(
+                          top: 0.0,
                         ),
-                        onTap: () async {
-                          print("ABOUT TO LAUNCH");
-                          CircularProgressIndicator(
-                            backgroundColor: Colors.red,
-                            value: 8.0,
+                        physics: ClampingScrollPhysics(),
+                        itemCount: socialItemCount,
+                        itemBuilder: (BuildContext context, index) {
+                          return ListTile(
+                            leading: socialListIcon[index],
+                            title: Text(
+                              socialListName[index],
+                              style: TextStyle(
+                                fontFamily: 'ProductSans',
+                                color: _fontColor,
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w300,
+                              ),
+                            ),
+                            onTap: () async {
+                              print("ABOUT TO LAUNCH");
+                              CircularProgressIndicator(
+                                backgroundColor: Colors.blue,
+                                value: 8.0,
+                              );
+                              print("LAUNCHED");
+                              await launch(socialListUrl[index]);
+
+                              Navigator.pop(context);
+                            },
                           );
-                          print("LAUNCHED");
-                          await launch(socialListUrl[index]);
-                          // using url_launcher
-                          // if (await canLaunch(socialListUrl[index])) {
-                          //   await launch(socialListUrl[index]);
-                          // } else {
-                          //   throw 'Could not launch socialListUrl[index]';
-                          // }
-                          //await controller.data.loadUrl(socialListUrl[index]);
-                          Navigator.pop(context);
                         },
-                      );
-                    },
-                  )),
-                  Divider(),
+                      )),
+                  Divider(
+                    height: 1.0,
+                    color: _fontColor,
+                  ),
                   Container(
+                    color: _drawerBgColor,
                     child: (widget.optionsGathered['ppOption'] == null)
                         ? null
                         : ListTile(
                             leading: SizedBox(
                               width: 25.0,
                               height: 25.0,
-                              child: Icon(Icons.privacy_tip_outlined),
+                              child: Icon(
+                                Icons.privacy_tip_outlined,
+                                color: _fontColor,
+                              ),
                             ),
                             title: Text(
                               'Privacy Policy',
                               style: TextStyle(
                                 fontFamily: 'ProductSans',
-                                color: Colors.black,
+                                color: _fontColor,
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.w300,
                               ),

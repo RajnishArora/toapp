@@ -5,9 +5,6 @@ class GetHeaderIcon {
 //  final String optionsPassed;
 
   FaIcon getMenuIcon(String optionsPassed) {
-//    if (optionsPassed == null || optionsPassed == "") {
-//      return null;
-//    }
     optionsPassed = optionsPassed.toLowerCase();
     switch (optionsPassed) {
       case 'home':

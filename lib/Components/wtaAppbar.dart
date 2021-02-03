@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:path_provider/path_provider.dart';
@@ -16,7 +15,6 @@ class WtaAppbar extends StatefulWidget implements PreferredSizeWidget {
 
   @override
   final Size preferredSize = Size.fromHeight(56.0);
-  //WtaAppbar({this.optionsGathered, this.completer});
   final Map<String, dynamic> optionsGathered;
 
   final Completer<WebViewController> completer;

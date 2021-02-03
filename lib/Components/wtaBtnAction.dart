@@ -1,14 +1,10 @@
 import 'dart:async';
 import 'dart:io';
-//import 'package:move_to_background/move_to_background.dart';
-//import 'package:flutter/scheduler.dart';
-//import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:move_to_background/move_to_background.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webtoapp/Helpers/GetHeaderIcons.dart';
 import 'package:share/share.dart';
-//import 'package:minimize_app/minimize_app.dart';
 
 class BtnAction extends StatefulWidget {
   final Completer<WebViewController> completer;
@@ -48,31 +44,6 @@ class _BtnActionState extends State<BtnAction> {
     }
   }
 
-  //bool changeIcon = false;
-  //
-  // Widget setIcon() {
-  //   Widget newIcon = _getHeaderIcon
-  //       .getHeaderIcon(widget.optionsGathered[widget.str + 'Icon']);
-  //
-  //   if (changeIcon == true) {
-  //     SchedulerBinding.instance.addPostFrameCallback((_) => setState(() {
-  //           newIcon = Icon(FontAwesomeIcons.arrowLeft);
-  //         }));
-  //     //setState(() {
-  //
-  //     //});
-  //   } else {
-  //     //setState(() {
-  //     SchedulerBinding.instance.addPostFrameCallback((_) => setState(() {
-  //           newIcon = _getHeaderIcon
-  //               .getHeaderIcon(widget.optionsGathered[widget.str + 'Icon']);
-  //         }));
-  //
-  //     //});
-  //   }
-  //   return newIcon;
-  // }
-
   @override
   Widget build(BuildContext context) {
     print("IN BTN ACTION CLASS");
@@ -102,9 +73,6 @@ class _BtnActionState extends State<BtnAction> {
                             controller.data
                                 .loadUrl(widget.optionsGathered['mainUrl']);
                           }
-
-                          //loadCurrentUrl(_controller.future, widget.optionsGathered['mainUrl']);
-                          //LoadCurrentUrl(_controller, widget.optionsGathered['mainUrl']);
                         } catch (e) {
                           print(e);
                         }

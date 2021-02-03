@@ -26,7 +26,7 @@ class _WebViewClassState extends State<WebViewClass> {
 
   final snackBar = SnackBar(content: Text('Snack Bar is lika a toast '));
 
-  var paddingBottom = 70.0;
+  var paddingBottom = 50.0;
 
   bool isLoading = true;
 
