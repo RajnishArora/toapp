@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:webtoapp/screens/about_us.dart';
 import 'package:webtoapp/screens/language_screen.dart';
 import 'package:webtoapp/screens/privacy_policy.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -91,25 +92,26 @@ class _WtaDrawerState extends State<WtaDrawer> {
   Color _headerBgColor = Colors.white;
   Color _drawerBgColor = Colors.white;
   Color _fontColor = Colors.black;
+  Color _fontColorH = Colors.black;
 
   void setDrawerColors() {
     _headerBgColor = _colorFromHex(widget.optionsGathered['colSelFirst']);
     switch (widget.optionsGathered['drawerHeaderCol']) {
       case 'dark':
         _headerBgColor = Colors.grey[900];
-        _fontColor = Colors.white;
+        _fontColorH = Colors.white;
         break;
       case 'light':
         _headerBgColor = Colors.white;
-        _fontColor = Colors.black;
+        _fontColorH = Colors.black;
         break;
       case 'default':
         _headerBgColor = _colorFromHex(widget.optionsGathered['colSelFirst']);
-        _fontColor = Colors.black;
+        _fontColorH = Colors.black;
         break;
       default:
         _headerBgColor = _colorFromHex(widget.optionsGathered['colSelFirst']);
-        _fontColor = Colors.black;
+        _fontColorH = Colors.black;
         break;
     }
     switch (widget.optionsGathered['drawerBackgroundCol']) {
@@ -175,6 +177,60 @@ class _WtaDrawerState extends State<WtaDrawer> {
     return ic;
   }
 
+  Image getIconImage(String str) {
+    Image img = Image.asset(
+      'assets/images/socialLogo-min.png',
+      width: 25.0,
+      height: 25.0,
+    );
+    switch (str) {
+      case 'Facebook':
+        img = Image.asset(
+          'assets/images/facebookLogo-min.png',
+          width: 25.0,
+          height: 25.0,
+        );
+        break;
+      case 'Whatsapp':
+        img = Image.asset(
+          'assets/images/whatsappLogo-min.png',
+          width: 25.0,
+          height: 25.0,
+        );
+        break;
+      case 'Instagram':
+        img = Image.asset(
+          'assets/images/instagramLogo-min.png',
+          width: 25.0,
+          height: 25.0,
+        );
+        break;
+      case 'Youtube':
+        img = Image.asset(
+          'assets/images/youtubeLogo-min.png',
+          width: 25.0,
+          height: 25.0,
+        );
+        break;
+
+      case 'SMS':
+        img = Image.asset(
+          'assets/images/smsLogo-min.png',
+          width: 25.0,
+          height: 25.0,
+        );
+        break;
+      case 'Call':
+        img = Image.asset(
+          'assets/images/phoneLogo-min.png',
+          width: 25.0,
+          height: 25.0,
+        );
+        break;
+    }
+    return img;
+  }
+
   String getItemUrl(String str, String toAdd) {
     // add facebook id or whatapp id later;
     String selectedUrl = "";
@@ -220,7 +276,8 @@ class _WtaDrawerState extends State<WtaDrawer> {
     int i = 0;
     while (i < len) {
       socialListName.add(nameList[i]);
-      socialListIcon.add(getFAIcon(nameList[i]));
+      //socialListIcon.add(getFAIcon(nameList[i]));
+      socialListIcon.add(getIconImage(nameList[i]));
       int j = i + 1;
       socialListUrl.add(getItemUrl(nameList[i], nameList[j]));
       i += 2;
@@ -290,65 +347,79 @@ class _WtaDrawerState extends State<WtaDrawer> {
               child: ListView(
                 //padding: EdgeInsets.only(top: 0),
                 children: [
-                  Container(
-                    padding: EdgeInsets.zero,
-                    child: DrawerHeader(
-                      margin: EdgeInsets.zero,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Flexible(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: SizedBox(
-                                height: 70.0,
-                                child: (() {
-                                  return FutureBuilder(
-                                      future: drawerHeaderImage,
-                                      builder: (BuildContext context,
-                                          AsyncSnapshot<File> snapshot) {
-                                        if (snapshot.hasData &&
-                                            snapshot.data != null) {
-                                          return SizedBox(
-                                            //width: 100.0,
+                  GestureDetector(
+                    onTap: () async {
+                      Navigator.pop(context);
+                      FocusScope.of(context).unfocus(); //minimize keyboard
+                      setState(() async {
+                        await controller.data
+                            .loadUrl(widget.optionsGathered['mainUrl']);
+                      });
+                    },
+                    child: Container(
+                      padding: EdgeInsets.zero,
+                      child: DrawerHeader(
+                        margin: EdgeInsets.zero,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Flexible(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SizedBox(
+                                  height: 70.0,
+                                  child: (() {
+                                    return FutureBuilder(
+                                        future: drawerHeaderImage,
+                                        builder: (BuildContext context,
+                                            AsyncSnapshot<File> snapshot) {
+                                          if (snapshot.hasData &&
+                                              snapshot.data != null) {
+                                            return SizedBox(
+                                              //width: 100.0,
+                                              height: 70.0,
+                                              child: Image.file(snapshot.data),
+                                            );
+                                          }
+                                          return Container(
+                                            width: 70.0,
                                             height: 70.0,
-                                            child: Image.file(snapshot.data),
+                                            //child: Text('Oh!'),
                                           );
-                                        }
-                                        return Container(
-                                          width: 70.0,
-                                          height: 70.0,
-                                          //child: Text('Oh!'),
-                                        );
-                                      });
-                                }()),
+                                        });
+                                  }()),
+                                ),
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                top: 16.0, right: 8.0, left: 8.0, bottom: 16.0),
-                            child: (widget
-                                        .optionsGathered['drawerHeaderText'] !=
-                                    null)
-                                ? Text(
-                                    widget.optionsGathered['drawerHeaderText'],
-                                    style: TextStyle(
-                                      color: _fontColor,
-                                      fontFamily: 'ProductSans',
-                                      fontSize: 24.0,
-                                    ),
-                                  )
-                                : Container(),
-                          ),
-                        ],
-                      ),
-                      decoration: BoxDecoration(
-                        color: _headerBgColor,
-                        border: Border(
-                          bottom: BorderSide(
-                            width: 1.0,
-                            color: _fontColor,
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 16.0,
+                                  right: 8.0,
+                                  left: 8.0,
+                                  bottom: 16.0),
+                              child:
+                                  (widget.optionsGathered['drawerHeaderText'] !=
+                                          null)
+                                      ? Text(
+                                          widget.optionsGathered[
+                                              'drawerHeaderText'],
+                                          style: TextStyle(
+                                            color: _fontColorH,
+                                            fontFamily: 'ProductSans',
+                                            fontSize: 24.0,
+                                          ),
+                                        )
+                                      : Container(),
+                            ),
+                          ],
+                        ),
+                        decoration: BoxDecoration(
+                          color: _headerBgColor,
+                          border: Border(
+                            bottom: BorderSide(
+                              width: 1.0,
+                              color: _fontColor,
+                            ),
                           ),
                         ),
                       ),
@@ -405,19 +476,22 @@ class _WtaDrawerState extends State<WtaDrawer> {
                                   ),
                                 ),
 
-                                onTap: () async {
-                                  print("ABOUT TO LAUNCH");
+                                onTap: () {
+                                  // print("ABOUT TO LAUNCH");
                                   Navigator.pop(context);
                                   FocusScope.of(context)
                                       .unfocus(); //minimize keyboard
-
-                                  print("LAUNCHED");
+                                  //print("LAUNCHED");
                                   if (lMenuItemNames[k] == 'Home') {
-                                    await controller.data.loadUrl(
-                                        widget.optionsGathered['mainUrl']);
+                                    setState(() async {
+                                      await controller.data.loadUrl(
+                                          widget.optionsGathered['mainUrl']);
+                                    });
                                   } else {
-                                    await controller.data
-                                        .loadUrl(lMenuItemUrls[k]);
+                                    setState(() async {
+                                      await controller.data
+                                          .loadUrl(lMenuItemUrls[k]);
+                                    });
                                   }
                                 },
                                 // trailing: IconButton(
@@ -490,12 +564,8 @@ class _WtaDrawerState extends State<WtaDrawer> {
                               ),
                             ),
                             onTap: () async {
-                              print("ABOUT TO LAUNCH");
-                              CircularProgressIndicator(
-                                backgroundColor: Colors.blue,
-                                value: 8.0,
-                              );
-                              print("LAUNCHED");
+                              //print("ABOUT TO LAUNCH");
+
                               await launch(socialListUrl[index]);
 
                               Navigator.pop(context);
@@ -509,7 +579,8 @@ class _WtaDrawerState extends State<WtaDrawer> {
                   ),
                   Container(
                     color: _drawerBgColor,
-                    child: (widget.optionsGathered['ppOption'] == null)
+                    child: (widget.optionsGathered['ppOption'] == null ||
+                            widget.optionsGathered['ppOption'] == 'no')
                         ? null
                         : ListTile(
                             leading: SizedBox(
@@ -540,6 +611,50 @@ class _WtaDrawerState extends State<WtaDrawer> {
                                           )));
                             },
                           ),
+                  ),
+                  Container(
+                    color: _drawerBgColor,
+                    child: (widget.optionsGathered['aboutUsOption'] == null ||
+                            widget.optionsGathered['aboutUsOption'] == 'no')
+                        ? null
+                        : ListTile(
+                            leading: SizedBox(
+                              width: 25.0,
+                              height: 25.0,
+                              child: Icon(
+                                Icons.account_circle,
+                                color: _fontColor,
+                              ),
+                            ),
+                            title: Text(
+                              'About Us',
+                              style: TextStyle(
+                                fontFamily: 'ProductSans',
+                                color: _fontColor,
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w300,
+                              ),
+                            ).tr(),
+                            onTap: () {
+                              Navigator.pop(context);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AboutUs(
+                                            aboutUs: widget
+                                                .optionsGathered['aboutUsText'],
+                                          )));
+                            },
+                          ),
+                  ),
+                  Container(
+                    color: _drawerBgColor,
+                    height:
+                        (widget.optionsGathered['admobOption'] == 'banner' &&
+                                widget.optionsGathered['admobPosition'] ==
+                                    'bottomads')
+                            ? 50.0
+                            : 0.0,
                   ),
                 ],
               ),

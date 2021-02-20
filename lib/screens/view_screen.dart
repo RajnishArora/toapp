@@ -8,6 +8,7 @@ import 'dart:io' show Platform;
 import 'package:move_to_background/move_to_background.dart';
 import 'package:webtoapp/Components/wtaDrawer.dart';
 import 'package:firebase_admob/firebase_admob.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class WebViewClass extends StatefulWidget {
   WebViewClass({this.optionsGathered});
@@ -41,10 +42,33 @@ class _WebViewClassState extends State<WebViewClass> {
       );
   }
 
+  void _checkPermissions() async {
+    if (widget.optionsGathered["pCamera"] == 'true') {
+      var cameraStatus = await Permission.camera.status;
+      if (cameraStatus == PermissionStatus.undetermined) {
+        await Permission.camera.request();
+      }
+    }
+    if (widget.optionsGathered["pLocation"] == 'true') {
+      var locationStatus = await Permission.location.status;
+      if (locationStatus == PermissionStatus.undetermined) {
+        await Permission.location.request();
+      }
+    }
+
+    if (widget.optionsGathered["pStorage"] == 'true') {
+      var storageStatus = await Permission.storage.status;
+      if (storageStatus == PermissionStatus.undetermined) {
+        await Permission.storage.request();
+      }
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
+    _checkPermissions();
     if (widget.optionsGathered['admobOption'] == 'banner') {
       _bannerAd = BannerAd(
         //adUnitId: AdManager.bannerAdUnitId,
@@ -132,6 +156,9 @@ class _WebViewClassState extends State<WebViewClass> {
                   ].toSet(),
                   onPageStarted: (String url) {
                     print('PAGE START LOADING : $url');
+                    setState(() {
+                      isLoading = true;
+                    });
                   },
                   onPageFinished: (String url) {
                     setState(() {

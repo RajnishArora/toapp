@@ -1,3 +1,25 @@
+// else {
+                                  //   FutureBuilder(
+                                  //       future: _url(controller.data, k),
+                                  //       builder: (BuildContext context,
+                                  //           AsyncSnapshot snapshot) {
+                                  //         if (snapshot.hasData) {
+                                  //           print("WAITING OVER");
+                                  //           // controller.data
+                                  //           //     .loadUrl(lMenuItemUrls[k]);
+                                  //           return null;
+                                  //         } else {
+                                  //           print("WAITING ....");
+                                  //           return CircularProgressIndicator();
+                                  //         }
+                                  //       });
+                                  //   // snapshot.hasData
+                                  //   //       ? print("WAITING ....") : print("WAITING OVER");
+                                  //   // ? controller.data
+                                  //   //     .loadUrl(lMenuItemUrls[k])
+                                  //   // : CircularProgressIndicator());
+                                  //}
+
 // leading: BtnAction(
                 //     completer: widget.completer,
                 //     optionsGathered: widget.optionsGathered,

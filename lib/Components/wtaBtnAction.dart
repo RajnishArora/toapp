@@ -70,8 +70,10 @@ class _BtnActionState extends State<BtnAction> {
                       case 'rhome':
                         try {
                           if (controller.data != null) {
-                            controller.data
-                                .loadUrl(widget.optionsGathered['mainUrl']);
+                            setState(() async {
+                              await controller.data
+                                  .loadUrl(widget.optionsGathered['mainUrl']);
+                            });
                           }
                         } catch (e) {
                           print(e);
